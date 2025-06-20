@@ -24,7 +24,7 @@ jobs:
       - name: Setup Quarto
         uses: quarto-dev/quarto-actions/setup@v2
         with:
-          version: latest
+          version: 1.5.40
 
       - name: Install dependencies
         run: |
