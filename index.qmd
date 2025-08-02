@@ -1,18 +1,18 @@
 ---
-title: "Adrian's Genomics Blog"
+title: "Adrian's Generative Genomics Blog"
 ---
 
 # Welcome to My Genomics Blog
 
-This blog explores the intersection of genomics, machine learning, and bioinformatics. Here you'll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.
+This blog explores the intersection of genomics, generative modeling, and bioinformatics. Here you'll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.
 
 ## Recent Posts
 
-- [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](blog-posts/alphagenome-evolution-genomic-modeling.html) - A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling.
+- [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](blog-posts/alphagenome-evolution-genomic-modeling.html) - A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.
 
 ## About This Blog
 
-This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and machine learning applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.
+This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.
 
 ---
 

@@ -53,7 +53,7 @@
     "href": "blog-posts/alphagenome-evolution-genomic-modeling.html#conclusion",
     "title": "AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling",
     "section": "Conclusion",
-    "text": "Conclusion\nThe evolution of AlphaGenome, particularly its integration with Evo 2, represents a significant milestone in genomic modeling. By combining sophisticated regulatory variant prediction with evolutionary principles, this framework opens new possibilities for understanding the functional impact of genomic variation.\nThe synergistic approach of AlphaGenome and Evo 2 not only improves prediction accuracy but also provides a more biologically grounded framework for genomic analysis. As we continue to refine these models and integrate additional data types, we move closer to a comprehensive understanding of how genomic variation shapes phenotype and disease.\nThis integration exemplifies the power of combining multiple approaches in computational genomics, demonstrating how evolutionary insights can enhance our ability to predict the functional consequences of genomic variation. The future of genomic prediction lies in such integrative approaches that leverage the full spectrum of biological knowledge.\n\nThis blog post synthesizes insights from two key AlphaGenome papers: “AlphaGenome: Advancing Regulatory Variant Effect Prediction” and “Integrating AlphaGenome with Evo 2: New Horizons in Genomic Modeling.” The combination of regulatory prediction capabilities with evolutionary modeling represents a significant advancement in our ability to understand and predict the functional impact of genomic variation."
+    "text": "Conclusion\nThe evolution of AlphaGenome, particularly its integration with Evo 2, represents a significant milestone in genomic modeling. By combining sophisticated regulatory variant prediction with evolutionary principles, this framework opens new possibilities for understanding the functional impact of genomic variation.\nThe synergistic approach of AlphaGenome and Evo 2 not only improves prediction accuracy but also provides a more biologically grounded framework for genomic analysis. As we continue to refine these models and integrate additional data types, we move closer to a comprehensive understanding of how genomic variation shapes phenotype and disease.\nThis integration exemplifies the power of combining multiple approaches in computational genomics, demonstrating how evolutionary insights can enhance our ability to predict the functional consequences of genomic variation. The future of genomic prediction lies in such integrative approaches that leverage the full spectrum of biological knowledge."
   },
   {
     "objectID": "about.html",
@@ -86,36 +86,36 @@
   {
     "objectID": "index.html",
     "href": "index.html",
-    "title": "Adrian’s Genomics Blog",
+    "title": "Adrian’s Generative Genomics Blog",
     "section": "",
-    "text": "This blog explores the intersection of genomics, machine learning, and bioinformatics. Here you’ll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.\n\n\n\nAlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling.\n\n\n\n\nThis blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and machine learning applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+    "text": "This blog explores the intersection of genomics, generative modeling, and bioinformatics. Here you’ll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.\n\n\n\nAlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.\n\n\n\n\nThis blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
   },
   {
     "objectID": "index.html#recent-posts",
     "href": "index.html#recent-posts",
-    "title": "Adrian’s Genomics Blog",
+    "title": "Adrian’s Generative Genomics Blog",
     "section": "",
-    "text": "AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling."
+    "text": "AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling."
   },
   {
     "objectID": "index.html#about-this-blog",
     "href": "index.html#about-this-blog",
-    "title": "Adrian’s Genomics Blog",
+    "title": "Adrian’s Generative Genomics Blog",
     "section": "",
-    "text": "This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and machine learning applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+    "text": "This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
   },
   {
     "objectID": "blog-posts/index.html",
     "href": "blog-posts/index.html",
     "title": "Blog Posts",
     "section": "",
-    "text": "Welcome to my collection of blog posts on genomics, machine learning, and bioinformatics research.\n\n\n\n\nJanuary 15, 2024\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with Evo 2 for evolutionary modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+    "text": "Welcome to my collection of blog posts on genomics, generative modeling, and bioinformatics research.\n\n\n\n\nAugust 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
   },
   {
     "objectID": "blog-posts/index.html#recent-posts",
     "href": "blog-posts/index.html#recent-posts",
     "title": "Blog Posts",
     "section": "",
-    "text": "January 15, 2024\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with Evo 2 for evolutionary modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+    "text": "August 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
   }
 ]
