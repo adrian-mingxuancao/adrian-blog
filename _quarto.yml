@@ -2,11 +2,13 @@ project:
   type: website
 
 website:
-  title: "adrian-blog"
+  title: "Adrian's Genomics Blog"
   navbar:
     left:
       - href: index.qmd
         text: Home
+      - href: blog-posts/
+        text: Blog Posts
       - about.qmd
 
 format:
@@ -16,6 +18,8 @@ format:
       - brand
     css: styles.css
     toc: true
+    toc-location: left
+    toc-depth: 3
 
 
 

@@ -2,4 +2,28 @@
 title: "About"
 ---
 
-About this site
+# About This Blog
+
+Welcome to my genomics blog! I'm passionate about exploring the intersection of computational biology, machine learning, and genomics research.
+
+## Focus Areas
+
+This blog covers several key areas in modern genomics:
+
+- **Computational Genomics**: Analysis and interpretation of genomic data using computational methods
+- **Machine Learning in Biology**: Applications of ML and AI in genomic prediction and modeling
+- **Regulatory Genomics**: Understanding how regulatory elements control gene expression
+- **Evolutionary Genomics**: Studying genomic evolution and its implications
+- **Clinical Genomics**: Translating genomic insights into clinical applications
+
+## Blog Structure
+
+Posts are organized in the `blog-posts/` directory, with each post focusing on synthesizing insights from recent research papers. The goal is to provide both technical depth and accessible explanations of complex genomic concepts.
+
+## Contact
+
+For questions or suggestions about the blog content, feel free to reach out through the repository.
+
+---
+
+*This blog is built using [Quarto](https://quarto.org/), a modern scientific and technical publishing system.*

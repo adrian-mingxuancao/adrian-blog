@@ -1,7 +1,19 @@
 ---
-title: "adrian-blog"
+title: "Adrian's Genomics Blog"
 ---
 
-This is a Quarto website.
+# Welcome to My Genomics Blog
 
-To learn more about Quarto websites visit <https://quarto.org/docs/websites>.
+This blog explores the intersection of genomics, machine learning, and bioinformatics. Here you'll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.
+
+## Recent Posts
+
+- [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](blog-posts/alphagenome-evolution-genomic-modeling.html) - A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling.
+
+## About This Blog
+
+This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and machine learning applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.
+
+---
+
+*Built with [Quarto](https://quarto.org/)*

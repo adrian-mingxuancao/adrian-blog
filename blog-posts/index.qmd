@@ -1,0 +1,26 @@
+---
+title: "Blog Posts"
+---
+
+# Blog Posts
+
+Welcome to my collection of blog posts on genomics, machine learning, and bioinformatics research.
+
+## Recent Posts
+
+### [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](alphagenome-evolution-genomic-modeling.html)
+
+*January 15, 2024*
+
+A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with Evo 2 for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome's evolution and its applications in genomic prediction.
+
+**Topics covered:**
+- Regulatory variant effect prediction
+- Integration with Evo 2 for evolutionary modeling
+- Multi-scale genomic modeling approaches
+- Clinical and research applications
+- Future directions in genomic prediction
+
+---
+
+*More posts coming soon!* 
