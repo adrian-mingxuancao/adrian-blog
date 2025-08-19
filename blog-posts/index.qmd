@@ -8,6 +8,21 @@ Welcome to my collection of blog posts on genomics, generative modeling, and bio
 
 ## Recent Posts
 
+### [Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation](dna-diffusion-genomic-sequences.html)
+
+*August 19, 2025*
+
+An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. This analysis explores their architectures, performance metrics, and implications for the future of generative modeling in genomics.
+
+**Topics covered:**
+- Diffusion models in genomics
+- Architecture comparison of DNA-Diffusion and DiscDiff
+- Performance evaluation and benchmarks
+- Applications in genomic research
+- Future directions in generative genomics
+
+---
+
 ### [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](alphagenome-evolution-genomic-modeling.html)
 
 *August 2, 2025*

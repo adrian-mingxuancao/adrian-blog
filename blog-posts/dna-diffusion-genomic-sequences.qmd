@@ -1,0 +1,43 @@
+---
+title: "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation"
+date: 2025-08-19
+author: "Adrian"
+categories: ["Genomics", "Generative Modeling", "Diffusion Models"]
+tags: ["DNA-Diffusion", "DiscDiff", "Generative Models", "Genomic Sequences"]
+---
+
+## Introduction
+
+*This blog post will provide a comprehensive analysis of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. The content will be based on the comparative analysis paper, with detailed explanations of the methodologies, results, and implications for the field of genomic research.*
+
+## Overview of Diffusion Models in Genomics
+
+*Brief introduction to diffusion models and their application in genomics*
+
+## DNA-Diffusion: Architecture and Methodology
+
+*Detailed explanation of DNA-Diffusion's approach*
+
+## DiscDiff: Architecture and Methodology
+
+*Detailed explanation of DiscDiff's approach*
+
+## Comparative Analysis
+
+*Side-by-side comparison of the two models*
+*Performance metrics*
+*Strengths and limitations of each approach*
+
+## Results and Discussion
+
+*Key findings from the comparative analysis*
+*Implications for genomic research*
+*Potential applications in the field*
+
+## Conclusion and Future Directions
+
+*Summary of key takeaways*
+*Future research directions*
+*Final thoughts on the state of diffusion models in genomics*
+
+*Note: This is a template that will be expanded with detailed content from the comparative analysis paper.*
