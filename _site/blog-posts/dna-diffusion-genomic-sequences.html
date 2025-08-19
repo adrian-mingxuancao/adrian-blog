@@ -6,8 +6,10 @@
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
 
+<meta name="author" content="Adrian">
+<meta name="dcterms.date" content="2025-08-19">
 
-<title>Adrian’s Generative Genomics Blog</title>
+<title>Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation – Adrian’s Generative Genomics Blog</title>
 <style>
 code{white-space: pre-wrap;}
 span.smallcaps{font-variant: small-caps;}
@@ -23,23 +25,23 @@ ul.task-list li input[type="checkbox"] {
 </style>
 
 
-<script src="site_libs/quarto-nav/quarto-nav.js"></script>
-<script src="site_libs/quarto-nav/headroom.min.js"></script>
-<script src="site_libs/clipboard/clipboard.min.js"></script>
-<script src="site_libs/quarto-search/autocomplete.umd.js"></script>
-<script src="site_libs/quarto-search/fuse.min.js"></script>
-<script src="site_libs/quarto-search/quarto-search.js"></script>
-<meta name="quarto:offset" content="./">
-<script src="site_libs/quarto-html/quarto.js" type="module"></script>
-<script src="site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
-<script src="site_libs/quarto-html/popper.min.js"></script>
-<script src="site_libs/quarto-html/tippy.umd.min.js"></script>
-<script src="site_libs/quarto-html/anchor.min.js"></script>
-<link href="site_libs/quarto-html/tippy.css" rel="stylesheet">
-<link href="site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
-<script src="site_libs/bootstrap/bootstrap.min.js"></script>
-<link href="site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
-<link href="site_libs/bootstrap/bootstrap-e2ec580592f0bca8c79b521847304919.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e2ec580592f0bca8c79b521847304919.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
 <script id="quarto-search-options" type="application/json">{
   "location": "navbar",
   "copy-button": false,
@@ -69,7 +71,7 @@ ul.task-list li input[type="checkbox"] {
 }</script>
 
 
-<link rel="stylesheet" href="styles.css">
+<link rel="stylesheet" href="../styles.css">
 </head>
 
 <body class="floating nav-fixed quarto-light">
@@ -79,7 +81,7 @@ ul.task-list li input[type="checkbox"] {
     <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
       <div class="navbar-container container-fluid">
       <div class="navbar-brand-container mx-auto">
-    <a class="navbar-brand" href="./index.html">
+    <a class="navbar-brand" href="../index.html">
     <span class="navbar-title">Adrian’s Generative Genomics Blog</span>
     </a>
   </div>
@@ -90,15 +92,15 @@ ul.task-list li input[type="checkbox"] {
           <div class="collapse navbar-collapse" id="navbarCollapse">
             <ul class="navbar-nav navbar-nav-scroll me-auto">
   <li class="nav-item">
-    <a class="nav-link active" href="./index.html" aria-current="page"> 
+    <a class="nav-link" href="../index.html"> 
 <span class="menu-text">Home</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./blog-posts/"> 
+    <a class="nav-link" href="../blog-posts/"> 
 <span class="menu-text">Blog Posts</span></a>
   </li>  
   <li class="nav-item">
-    <a class="nav-link" href="./about.html"> 
+    <a class="nav-link" href="../about.html"> 
 <span class="menu-text">About</span></a>
   </li>  
 </ul>
@@ -116,11 +118,13 @@ ul.task-list li input[type="checkbox"] {
     <h2 id="toc-title">On this page</h2>
    
   <ul>
-  <li><a href="#welcome-to-my-genomics-blog" id="toc-welcome-to-my-genomics-blog" class="nav-link active" data-scroll-target="#welcome-to-my-genomics-blog">Welcome to My Genomics Blog</a>
-  <ul class="collapse">
-  <li><a href="#recent-posts" id="toc-recent-posts" class="nav-link" data-scroll-target="#recent-posts">Recent Posts</a></li>
-  <li><a href="#about-this-blog" id="toc-about-this-blog" class="nav-link" data-scroll-target="#about-this-blog">About This Blog</a></li>
-  </ul></li>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#overview-of-diffusion-models-in-genomics" id="toc-overview-of-diffusion-models-in-genomics" class="nav-link" data-scroll-target="#overview-of-diffusion-models-in-genomics">Overview of Diffusion Models in Genomics</a></li>
+  <li><a href="#dna-diffusion-architecture-and-methodology" id="toc-dna-diffusion-architecture-and-methodology" class="nav-link" data-scroll-target="#dna-diffusion-architecture-and-methodology">DNA-Diffusion: Architecture and Methodology</a></li>
+  <li><a href="#discdiff-architecture-and-methodology" id="toc-discdiff-architecture-and-methodology" class="nav-link" data-scroll-target="#discdiff-architecture-and-methodology">DiscDiff: Architecture and Methodology</a></li>
+  <li><a href="#comparative-analysis" id="toc-comparative-analysis" class="nav-link" data-scroll-target="#comparative-analysis">Comparative Analysis</a></li>
+  <li><a href="#results-and-discussion" id="toc-results-and-discussion" class="nav-link" data-scroll-target="#results-and-discussion">Results and Discussion</a></li>
+  <li><a href="#conclusion-and-future-directions" id="toc-conclusion-and-future-directions" class="nav-link" data-scroll-target="#conclusion-and-future-directions">Conclusion and Future Directions</a></li>
   </ul>
 </nav>
 </nav>
@@ -133,14 +137,31 @@ ul.task-list li input[type="checkbox"] {
 
 <header id="title-block-header" class="quarto-title-block default">
 <div class="quarto-title">
-<h1 class="title">Adrian’s Generative Genomics Blog</h1>
-</div>
+<h1 class="title">Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation</h1>
+  <div class="quarto-categories">
+    <div class="quarto-category">Genomics</div>
+    <div class="quarto-category">Generative Modeling</div>
+    <div class="quarto-category">Diffusion Models</div>
+  </div>
+  </div>
 
 
 
 <div class="quarto-title-meta">
 
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Adrian </p>
+          </div>
+  </div>
     
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">August 19, 2025</p>
+    </div>
+  </div>
   
     
   </div>
@@ -150,24 +171,36 @@ ul.task-list li input[type="checkbox"] {
 </header>
 
 
-<section id="welcome-to-my-genomics-blog" class="level1">
-<h1>Welcome to My Genomics Blog</h1>
-<p>This blog explores the intersection of genomics, generative modeling, and bioinformatics. Here you’ll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.</p>
-<section id="recent-posts" class="level2">
-<h2 class="anchored" data-anchor-id="recent-posts">Recent Posts</h2>
-<ul>
-<li><p><a href="blog-posts/dna-diffusion-genomic-sequences.html">Diffusion Models in Genomics: DNA-Diffusion and DiscDiff</a> - An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation, exploring their architectures, performance metrics, and implications for the future of generative modeling in genomics.</p></li>
-<li><p><a href="blog-posts/alphagenome-evolution-genomic-modeling.html">AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling</a> - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.</p></li>
-</ul>
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p><em>This blog post will provide a comprehensive analysis of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. The content will be based on the comparative analysis paper, with detailed explanations of the methodologies, results, and implications for the field of genomic research.</em></p>
 </section>
-<section id="about-this-blog" class="level2">
-<h2 class="anchored" data-anchor-id="about-this-blog">About This Blog</h2>
-<p>This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.</p>
-<hr>
-<p><em>Built with <a href="https://quarto.org/">Quarto</a></em></p>
+<section id="overview-of-diffusion-models-in-genomics" class="level2">
+<h2 class="anchored" data-anchor-id="overview-of-diffusion-models-in-genomics">Overview of Diffusion Models in Genomics</h2>
+<p><em>Brief introduction to diffusion models and their application in genomics</em></p>
+</section>
+<section id="dna-diffusion-architecture-and-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="dna-diffusion-architecture-and-methodology">DNA-Diffusion: Architecture and Methodology</h2>
+<p><em>Detailed explanation of DNA-Diffusion’s approach</em></p>
+</section>
+<section id="discdiff-architecture-and-methodology" class="level2">
+<h2 class="anchored" data-anchor-id="discdiff-architecture-and-methodology">DiscDiff: Architecture and Methodology</h2>
+<p><em>Detailed explanation of DiscDiff’s approach</em></p>
+</section>
+<section id="comparative-analysis" class="level2">
+<h2 class="anchored" data-anchor-id="comparative-analysis">Comparative Analysis</h2>
+<p><em>Side-by-side comparison of the two models</em> <em>Performance metrics</em> <em>Strengths and limitations of each approach</em></p>
+</section>
+<section id="results-and-discussion" class="level2">
+<h2 class="anchored" data-anchor-id="results-and-discussion">Results and Discussion</h2>
+<p><em>Key findings from the comparative analysis</em> <em>Implications for genomic research</em> <em>Potential applications in the field</em></p>
+</section>
+<section id="conclusion-and-future-directions" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion-and-future-directions">Conclusion and Future Directions</h2>
+<p><em>Summary of key takeaways</em> <em>Future research directions</em> <em>Final thoughts on the state of diffusion models in genomics</em></p>
+<p><em>Note: This is a template that will be expanded with detailed content from the comparative analysis paper.</em></p>
 
 
-</section>
 </section>
 
 </main> <!-- /main -->

@@ -42,6 +42,41 @@
     "text": "Authors’ Reflections and Open Issues\nThe creators of AlphaGenome are candid about many of these limitations. In the preprint and official blog, they stress that AlphaGenome is a significant step forward but not a solved game. They explicitly list ongoing challenges such as capturing very distant enhancers (&gt;100 kb), improving cell/tissue-specific accuracy, expanding to other species, and bridging the gap from molecular effects to complex traits. They did not attempt personal genome interpretation or clinical diagnosis with AlphaGenome, acknowledging that those remain difficult for AI models and were outside their project’s scope. The team encourages experimental validation of predictions and is actively seeking community feedback on where the model fails. They have also outlined future improvements: plans include incorporating single-cell data for finer cell specificity, extending to additional species, and even integrating developmental or environmental context down the line. This aligns with external critiques that noted the absence of such data in the current model and the importance of including it going forward. Another point of critique has been the accessibility of the model – DeepMind’s choice to release AlphaGenome via API (with code/weights to follow later) drew some community ire given the push for open science. The authors mitigated this by committing to open-source release upon publication, and emphasizing that AlphaGenome is meant to be a foundation others can fine-tune and build on. Nonetheless, until full release, some researchers remain frustrated that an open benchmark against models like Evo 2 or other community models isn’t possible yet.\nIn related evaluations and commentary, experts have lauded AlphaGenome’s achievement (1 Mb context and multi-modal prediction) but also note it as an expected next step rather than a complete solution. There is recognition that “there’s so much biology for which we simply don’t have the data to learn from” even with such models – meaning limitations often arise not just from the model design but from gaps in training data (e.g., unmeasured cell types, conditions, or multi-omic interactions). A critical perspective is that AlphaGenome, like its predecessors, will only be as good as the data available. If certain regulatory logic isn’t present in the training datasets, the model can’t invent it. Thus, one open issue is the need for more and better data (e.g. perturbation experiments to validate causal variant effects, or data from diverse human populations to capture ancestry-specific regulatory variants). The authors of AlphaGenome seem aware of this, as they encourage combining the model’s outputs with other evidence and plan to extend training data in future iterations.\nIn conclusion, AlphaGenome’s potential limitations span multiple dimensions: methodologically, it’s a complex distilled model with finite attention span and black-box internals; in benchmarking, it excels on known tasks but hasn’t proven itself on truly novel or rare-case scenarios; in deployment, it demands heavy compute and careful use (though an efficient API helps); in biological scope, it doesn’t yet cover every species, cell type or polygenic effect; and compared to broad foundation models, it sacrifices universality and generative flexibility for focused accuracy. These shortcomings are actively acknowledged by the authors and the community, and they point towards clear directions for future research. We can expect subsequent versions or related models to address some of these – for example, by integrating single-cell and cross-species data to broaden scope, adopting new attention mechanisms to further extend long-range capture, or leveraging foundation model insights to make AlphaGenome more general. In the meantime, researchers using AlphaGenome should be mindful of its current boundaries: it is a powerful, state-of-the-art tool – but not a magic bullet – and its predictions should be interpreted in context, with an understanding of what might lie outside its view."
   },
   {
+    "objectID": "blog-posts/index.html",
+    "href": "blog-posts/index.html",
+    "title": "Blog Posts",
+    "section": "",
+    "text": "Welcome to my collection of blog posts on genomics, generative modeling, and bioinformatics research.\n\n\n\n\nAugust 19, 2025\nAn in-depth comparison of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. This analysis explores their architectures, performance metrics, and implications for the future of generative modeling in genomics.\nTopics covered: - Diffusion models in genomics - Architecture comparison of DNA-Diffusion and DiscDiff - Performance evaluation and benchmarks - Applications in genomic research - Future directions in generative genomics\n\n\n\n\nAugust 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+  },
+  {
+    "objectID": "blog-posts/index.html#recent-posts",
+    "href": "blog-posts/index.html#recent-posts",
+    "title": "Blog Posts",
+    "section": "",
+    "text": "August 19, 2025\nAn in-depth comparison of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. This analysis explores their architectures, performance metrics, and implications for the future of generative modeling in genomics.\nTopics covered: - Diffusion models in genomics - Architecture comparison of DNA-Diffusion and DiscDiff - Performance evaluation and benchmarks - Applications in genomic research - Future directions in generative genomics\n\n\n\n\nAugust 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "Adrian’s Generative Genomics Blog",
+    "section": "",
+    "text": "This blog explores the intersection of genomics, generative modeling, and bioinformatics. Here you’ll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.\n\n\n\nDiffusion Models in Genomics: DNA-Diffusion and DiscDiff - An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation, exploring their architectures, performance metrics, and implications for the future of generative modeling in genomics.\nAlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.\n\n\n\n\nThis blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+  },
+  {
+    "objectID": "index.html#recent-posts",
+    "href": "index.html#recent-posts",
+    "title": "Adrian’s Generative Genomics Blog",
+    "section": "",
+    "text": "Diffusion Models in Genomics: DNA-Diffusion and DiscDiff - An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation, exploring their architectures, performance metrics, and implications for the future of generative modeling in genomics.\nAlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling."
+  },
+  {
+    "objectID": "index.html#about-this-blog",
+    "href": "index.html#about-this-blog",
+    "title": "Adrian’s Generative Genomics Blog",
+    "section": "",
+    "text": "This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+  },
+  {
     "objectID": "about.html",
     "href": "about.html",
     "title": "About",
@@ -70,38 +105,59 @@
     "text": "For questions or suggestions about the blog content, feel free to reach out through the repository.\n\nThis blog is built using Quarto, a modern scientific and technical publishing system."
   },
   {
-    "objectID": "index.html",
-    "href": "index.html",
-    "title": "Adrian’s Generative Genomics Blog",
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
     "section": "",
-    "text": "This blog explores the intersection of genomics, generative modeling, and bioinformatics. Here you’ll find insights into cutting-edge research, computational methods, and their applications in understanding the genome.\n\n\n\nAlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.\n\n\n\n\nThis blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+    "text": "This blog post will provide a comprehensive analysis of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. The content will be based on the comparative analysis paper, with detailed explanations of the methodologies, results, and implications for the field of genomic research."
   },
   {
-    "objectID": "index.html#recent-posts",
-    "href": "index.html#recent-posts",
-    "title": "Adrian’s Generative Genomics Blog",
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#introduction",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#introduction",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
     "section": "",
-    "text": "AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling - A comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling."
+    "text": "This blog post will provide a comprehensive analysis of two cutting-edge diffusion models for genomic sequence generation: DNA-Diffusion and DiscDiff. The content will be based on the comparative analysis paper, with detailed explanations of the methodologies, results, and implications for the field of genomic research."
   },
   {
-    "objectID": "index.html#about-this-blog",
-    "href": "index.html#about-this-blog",
-    "title": "Adrian’s Generative Genomics Blog",
-    "section": "",
-    "text": "This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.\n\nBuilt with Quarto"
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#overview-of-diffusion-models-in-genomics",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#overview-of-diffusion-models-in-genomics",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "Overview of Diffusion Models in Genomics",
+    "text": "Overview of Diffusion Models in Genomics\nBrief introduction to diffusion models and their application in genomics"
   },
   {
-    "objectID": "blog-posts/index.html",
-    "href": "blog-posts/index.html",
-    "title": "Blog Posts",
-    "section": "",
-    "text": "Welcome to my collection of blog posts on genomics, generative modeling, and bioinformatics research.\n\n\n\n\nAugust 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#dna-diffusion-architecture-and-methodology",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#dna-diffusion-architecture-and-methodology",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "DNA-Diffusion: Architecture and Methodology",
+    "text": "DNA-Diffusion: Architecture and Methodology\nDetailed explanation of DNA-Diffusion’s approach"
   },
   {
-    "objectID": "blog-posts/index.html#recent-posts",
-    "href": "blog-posts/index.html#recent-posts",
-    "title": "Blog Posts",
-    "section": "",
-    "text": "August 2, 2025\nA comprehensive exploration of AlphaGenome’s capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling. This post synthesizes insights from two key papers on AlphaGenome’s evolution and its applications in genomic prediction.\nTopics covered: - Regulatory variant effect prediction - Integration with advanced DNA language models for enhanced genomic modeling - Multi-scale genomic modeling approaches - Clinical and research applications - Future directions in genomic prediction\n\nMore posts coming soon!"
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#discdiff-architecture-and-methodology",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#discdiff-architecture-and-methodology",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "DiscDiff: Architecture and Methodology",
+    "text": "DiscDiff: Architecture and Methodology\nDetailed explanation of DiscDiff’s approach"
+  },
+  {
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#comparative-analysis",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#comparative-analysis",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "Comparative Analysis",
+    "text": "Comparative Analysis\nSide-by-side comparison of the two models Performance metrics Strengths and limitations of each approach"
+  },
+  {
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#results-and-discussion",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#results-and-discussion",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "Results and Discussion",
+    "text": "Results and Discussion\nKey findings from the comparative analysis Implications for genomic research Potential applications in the field"
+  },
+  {
+    "objectID": "blog-posts/dna-diffusion-genomic-sequences.html#conclusion-and-future-directions",
+    "href": "blog-posts/dna-diffusion-genomic-sequences.html#conclusion-and-future-directions",
+    "title": "Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation",
+    "section": "Conclusion and Future Directions",
+    "text": "Conclusion and Future Directions\nSummary of key takeaways Future research directions Final thoughts on the state of diffusion models in genomics\nNote: This is a template that will be expanded with detailed content from the comparative analysis paper."
   }
 ]
