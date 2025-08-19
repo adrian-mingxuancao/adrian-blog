@@ -2,8 +2,6 @@
 title: "Blog Posts"
 ---
 
-# Blog Posts
-
 Welcome to my collection of blog posts on genomics, generative modeling, and bioinformatics research.
 
 ## Recent Posts
