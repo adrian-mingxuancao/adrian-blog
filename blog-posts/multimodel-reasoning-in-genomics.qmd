@@ -30,7 +30,7 @@ This report examines BioReason and Genome-Bench as pioneering entries in a new p
 
 
 ## The BioReason Framework: Towards a Causal Understanding of the Genome
-{{ ... }}
+
 ###  Architectural Blueprint and the "Genome as Image" Analogy
 
 The BioReason architecture is a pioneering development in computational biology, establishing a novel multimodal approach that fundamentally changes how AI interacts with genomic data. At its core, the framework seamlessly integrates a specialized DNA foundation model, such as Evo2, with a Large Language Model (LLM), exemplified by Qwen3-4B. This is a departure from previous attempts that either relied on single-modality models or used LLMs as a secondary tool for summarizing pre-processed biological outputs.   
