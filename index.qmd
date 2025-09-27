@@ -8,9 +8,11 @@ This blog explores the intersection of genomics, generative modeling, and bioinf
 
 ## Recent Posts
 
+- [A Synthesis of Multimodal Reasoning in Genomics](blog-posts/multimodel-reasoning-in-genomics.html) - Exploring the paradigm shift from statistical associations to mechanistic biological understanding through BioReason and Genome-Bench in the context of GWAS.
+
 - [Diffusion Models in Genomics: DNA-Diffusion and DiscDiff](blog-posts/dna-diffusion-genomic-sequences.html) - An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation, exploring their architectures, performance metrics, and implications for the future of generative modeling in genomics.
 
-- [AlphaGenome Evolution: Advancing Regulatory Variant Prediction and Genomic Modeling](blog-posts/alphagenome-evolution-genomic-modeling.html) - A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.
+- [AlphaGenome Evolution: Advancing Regulatory Variant Prediction](blog-posts/alphagenome-evolution-genomic-modeling.html) - A comprehensive exploration of AlphaGenome's capabilities in regulatory variant prediction and its integration with advanced DNA language models for enhanced genomic modeling.
 
 ## About This Blog
 

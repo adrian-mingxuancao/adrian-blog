@@ -13,6 +13,8 @@ This blog covers several key areas in modern genomics:
 - **Computational Genomics**: Analysis and interpretation of genomic data using computational methods
 - **Machine Learning in Biology**: Applications of ML and AI in genomic prediction and modeling
 - **Regulatory Genomics**: Understanding how regulatory elements control gene expression
+- **Multimodal Genomic Analysis**: Integrating diverse data types for comprehensive biological insights
+- **GWAS and Beyond**: Advancing beyond statistical associations to mechanistic understanding
 - **Evolutionary Genomics**: Studying genomic evolution and its implications
 - **Clinical Genomics**: Translating genomic insights into clinical applications
 

@@ -6,6 +6,21 @@ Welcome to my collection of blog posts on genomics, generative modeling, and bio
 
 ## Recent Posts
 
+### [A Synthesis of Multimodal Reasoning in Genomics: Analyzing BioReason and Genome-Bench in the Context of GWAS](multimodel-reasoning-in-genomics.html)
+
+*September 27, 2025*
+
+An exploration of the paradigm shift in computational genomics from statistical associations to mechanistic biological understanding. This post examines how BioReason and Genome-Bench are advancing the field beyond traditional GWAS approaches.
+
+**Topics covered:**
+- Evolution of genomic analysis approaches
+- From GWAS to multimodal reasoning
+- The BioReason architecture
+- Genome-Bench evaluation framework
+- Future directions in computational genomics
+
+---
+
 ### [Comparative Analysis: DNA-Diffusion and DiscDiff in Genomic Sequence Generation](dna-diffusion-genomic-sequences.html)
 
 *August 19, 2025*
