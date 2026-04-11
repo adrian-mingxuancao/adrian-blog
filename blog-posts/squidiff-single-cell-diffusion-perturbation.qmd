@@ -13,9 +13,9 @@ This post synthesizes the model’s design, how it relates to earlier perturbati
 
 ## Executive summary
 
-Squidiff conditions a reverse diffusion process on a **semantic latent** \(z_{\text{sem}}\) from a **semantic encoder** (described in the paper as VAE-derived). The motivation, borrowed from **diffusion autoencoder** ideas, is that the “low-level” diffusion latent \(x_T\) alone is often **not semantically smooth** for interpolation; adding \(z_{\text{sem}}\) steers sampling toward biologically meaningful directions.
+Squidiff conditions a reverse diffusion process on a **semantic latent** $z_{\mathrm{sem}}$ from a **semantic encoder** (described in the paper as VAE-derived). The motivation, borrowed from **diffusion autoencoder** ideas, is that the “low-level” diffusion latent $x_T$ alone is often **not semantically smooth** for interpolation; adding $z_{\mathrm{sem}}$ steers sampling toward biologically meaningful directions.
 
-Reported results include stronger performance than **scGen** on an iPSC differentiation prediction task (for example \(R^2\) across days) and stronger performance than **scGen** and **GEARS** on a two-gene perturbation example (ZBTB25+PTPN12), with metrics computed on **203 genes** in that setting, using **Pearson correlation**, **\(R^2\)**, and **MMD**, with very small p-values in the paper’s reporting. For **out-of-distribution** stress testing, the authors describe a masking experiment in blood vessel organoids: some cell types are withheld from training under irradiation, yet the model still generates irradiated-state transcriptomes for those held-out types with high accuracy according to their analysis; complementary readouts such as **ELISA** and **immunofluorescence** are used alongside transcriptomic analyses in the organoid work.
+Reported results include stronger performance than **scGen** on an iPSC differentiation prediction task (for example $R^2$ across days) and stronger performance than **scGen** and **GEARS** on a two-gene perturbation example (ZBTB25+PTPN12), with metrics computed on **203 genes** in that setting, using **Pearson correlation**, **$R^2$**, and **MMD**, with very small p-values in the paper’s reporting. For **out-of-distribution** stress testing, the authors describe a masking experiment in blood vessel organoids: some cell types are withheld from training under irradiation, yet the model still generates irradiated-state transcriptomes for those held-out types with high accuracy according to their analysis; complementary readouts such as **ELISA** and **immunofluorescence** are used alongside transcriptomic analyses in the organoid work.
 
 On the engineering side, the authors provide a **public codebase**, a **PyPI package** (`Squidiff`), and a reproducibility repository that claims **checkpoints on figshare** (access may vary by network or institution). One practical caveat: the GitHub **LICENSE** file has been reported to contain unresolved merge conflict markers, which is worth fixing for anyone redistributing or building on the code.
 
@@ -35,23 +35,23 @@ Exact GEO accessions are not consistently recoverable from short excerpts alone;
 
 ## Model architecture
 
-At a high level, Squidiff is a **conditional diffusion model** that predicts transcriptome vectors through a reverse diffusion process conditioned on a semantic embedding \(z_{\text{sem}}\).
+At a high level, Squidiff is a **conditional diffusion model** that predicts transcriptome vectors through a reverse diffusion process conditioned on a semantic embedding $z_{\mathrm{sem}}$.
 
 ### Reverse diffusion with semantic conditioning
 
 The conditional reverse process is written as
 
-\[
-p_\theta(x_{0:T}\mid z_{\text{sem}})=p(x_T)\prod_{t=1}^T p_\theta(x_{t-1}\mid x_t, z_{\text{sem}}),
-\]
+$$
+p_\theta(x_{0:T} \mid z_{\mathrm{sem}}) = p(x_T)\prod_{t=1}^{T} p_\theta(x_{t-1} \mid x_t, z_{\mathrm{sem}}),
+$$
 
-with an \(\epsilon_\theta(x_t,t,z_{\text{sem}})\)-parameterized deterministic update in the **DDIM** style to step from noise toward data-like vectors.
+with an $\epsilon_\theta(x_t, t, z_{\mathrm{sem}})$-parameterized deterministic update in the **DDIM** style to step from noise toward data-like vectors.
 
-**Why \(z_{\text{sem}}\)?** The paper argues that the diffusion latent \(x_T\) “typically does not contain high-level semantics,” so interpolation purely in \(x_T\) is not semantically meaningful. Conditioning on \(z_{\text{sem}}\) is intended to make latent manipulation align with biological factors such as perturbation direction or developmental stage.
+**Why $z_{\mathrm{sem}}$?** The paper argues that the diffusion latent $x_T$ “typically does not contain high-level semantics,” so interpolation purely in $x_T$ is not semantically meaningful. Conditioning on $z_{\mathrm{sem}}$ is intended to make latent manipulation align with biological factors such as perturbation direction or developmental stage.
 
 ### Implementation sketch (from the released code)
 
-The public package uses an **MLP denoiser**: a main `MLPModel` maps gene expression vectors through stacked blocks with a **time embedding** (SiLU MLP). Conditioning is **additive** in each block: hidden activations are shifted by learned linear maps of the timestep embedding and, when present, of \(z_{\text{sem}}\)—closer to additive conditioning than U-Net cross-attention in image diffusion. A semantic encoder (`EncoderMLPModel`) outputs a latent (default size 60) and can concatenate **label embeddings** or **drug-structure / dose** features when enabled.
+The public package uses an **MLP denoiser**: a main `MLPModel` maps gene expression vectors through stacked blocks with a **time embedding** (SiLU MLP). Conditioning is **additive** in each block: hidden activations are shifted by learned linear maps of the timestep embedding and, when present, of $z_{\mathrm{sem}}$—closer to additive conditioning than U-Net cross-attention in image diffusion. A semantic encoder (`EncoderMLPModel`) outputs a latent (default size 60) and can concatenate **label embeddings** or **drug-structure / dose** features when enabled.
 
 ### Defaults and the drug-structure hook
 
@@ -66,36 +66,37 @@ From the released code and training scripts, several defaults are easy to miss b
 
 Training follows the standard **noise-prediction** objective:
 
-\[
-\mathcal{L}_{\text{MSE}}=\sum_{t=1}^T \mathbb{E}_{x_0,\epsilon_t}\left[\|\epsilon_\theta(x_t,t,z_{\text{sem}})-\epsilon_t\|_2^2\right],\quad \epsilon_t\sim\mathcal{N}(0,1).
-\]
+$$
+\mathcal{L}_{\mathrm{MSE}} = \sum_{t=1}^{T} \mathbb{E}_{x_0,\epsilon_t}\left[ \left\lVert \epsilon_\theta(x_t, t, z_{\mathrm{sem}}) - \epsilon_t \right\rVert_2^2 \right], \quad \epsilon_t \sim \mathcal{N}(0, 1).
+$$
 
-When the implementation **learns per-timestep variance** (the “improved diffusion” pattern), the objective often adds a **variational bound** term \(\mathcal{L}_{\text{VB}}\) alongside \(\mathcal{L}_{\text{MSE}}\), so the total loss can be written schematically as \(\mathcal{L}=\mathcal{L}_{\text{MSE}}+\mathcal{L}_{\text{VB}}\) when `learn_sigma` or equivalent flags are enabled.
+When the implementation **learns per-timestep variance** (the “improved diffusion” pattern), the objective often adds a **variational bound** term $\mathcal{L}_{\mathrm{VB}}$ alongside $\mathcal{L}_{\mathrm{MSE}}$, so the total loss can be written schematically as $\mathcal{L} = \mathcal{L}_{\mathrm{MSE}} + \mathcal{L}_{\mathrm{VB}}$ when `learn_sigma` or equivalent flags are enabled.
 
-In code, \(x_t\) is sampled with a `q_sample`-style forward diffusion, the model is called on \((x_t, t)\) with access to the baseline \(x_0\) for encoding \(z_{\text{sem}}\), and MSE is computed against the sampled noise \(\epsilon\) when using \(\epsilon\)-prediction; optional VB terms appear when variance is learned rather than fixed.
+In code, $x_t$ is sampled with a `q_sample`-style forward diffusion, the model is called on $(x_t, t)$ with access to the baseline $x_0$ for encoding $z_{\mathrm{sem}}$, and MSE is computed against the sampled noise $\epsilon$ when using $\epsilon$-prediction; optional VB terms appear when variance is learned rather than fixed.
 
 ## Conditioning and generation
 
-**Conceptually**, the model learns perturbation or developmental “direction” in semantic space and uses that direction to generate intermediate or perturbed transcriptomes. For differentiation from day 0 to day 3, the paper describes extracting semantic latents \(z^{(1)}_{\text{sem}}, z^{(2)}_{\text{sem}}\) and using \(\Delta z_{\text{sem}}\) as a direction vector.
+**Conceptually**, the model learns perturbation or developmental “direction” in semantic space and uses that direction to generate intermediate or perturbed transcriptomes. For differentiation from day 0 to day 3, the paper describes extracting semantic latents $z^{(1)}_{\mathrm{sem}}, z^{(2)}_{\mathrm{sem}}$ and using $\Delta z_{\mathrm{sem}}$ as a direction vector.
 
 **In practice**, the sampler defaults to **DDIM** (`ddim_sample_loop` when `use_ddim=True`). The API can implement interpolation via something like
 
-\[
-z_{\text{interp}}=\text{mean}(z_{\text{origin}})+(\text{direction})\cdot \text{scale},
-\]
+$$
+z_{\mathrm{interp}} = \mathrm{mean}(z_{\mathrm{origin}}) + (\mathrm{direction}) \cdot \mathrm{scale},
+$$
 
-optionally adding noise for **per-cell diversity**, then generating expression with DDIM conditioned on \(z_{\text{interp}}\).
+optionally adding noise for **per-cell diversity**, then generating expression with DDIM conditioned on $z_{\mathrm{interp}}$.
 
 ```{mermaid}
+%%| fig-width: 9
 flowchart LR
-  A[Input: baseline expression x0] --> B[Preprocess: log-normalize, HVGs]
-  B --> C[Semantic encoder: z_sem]
-  D[Metadata: cell type, time, perturbation, dose] --> C
-  C --> E[Edit latent: delta z or interpolation]
-  E --> F[Initialize x_T ~ Normal]
-  F --> G[Denoiser: epsilon_theta of x_t, t, z]
-  G --> H[DDIM steps to x0_hat]
-  H --> I[Predicted transcriptome]
+  A["Baseline expr. x0"] --> B["Log-normalize, HVGs"]
+  B --> C["Encoder: z_sem"]
+  D["Metadata: type, time, drug"] --> C
+  C --> E["Edit latent"]
+  E --> F["Noise x_T"]
+  F --> G["Denoiser"]
+  G --> H["DDIM reverse"]
+  H --> I["Predicted expr."]
 ```
 
 ## Why diffusion fits single-cell perturbation prediction
@@ -104,17 +105,17 @@ flowchart LR
 
 In DDPM-style diffusion, a forward process gradually adds Gaussian noise:
 
-\[
-q(x_t|x_{t-1})=\mathcal{N}(x_t;\sqrt{1-\beta_t}x_{t-1},\beta_t I),
-\]
+$$
+q(x_t \mid x_{t-1}) = \mathcal{N}\!\left(x_t;\, \sqrt{1-\beta_t}\, x_{t-1},\, \beta_t I\right),
+$$
 
 so that
 
-\[
-x_t=\sqrt{\bar\alpha_t}x_0+\sqrt{1-\bar\alpha_t}\,\epsilon,\quad \epsilon\sim\mathcal{N}(0,I).
-\]
+$$
+x_t = \sqrt{\bar{\alpha}_t}\, x_0 + \sqrt{1 - \bar{\alpha}_t}\, \epsilon, \quad \epsilon \sim \mathcal{N}(0, I).
+$$
 
-The model learns to approximate the reverse process by predicting noise (or equivalent reparameterizations). **DDIM** enables faster, near-deterministic sampling (\(\eta=0\)), which matches Squidiff’s emphasis on controlled interpolation.
+The model learns to approximate the reverse process by predicting noise (or equivalent reparameterizations). **DDIM** enables faster, near-deterministic sampling ($\eta = 0$), which matches Squidiff’s emphasis on controlled interpolation.
 
 From a **score-matching** perspective, learning to denoise at many noise levels acts as a strong regularizer in high-dimensional gene space—useful when populations are heterogeneous and responses are multi-modal.
 
@@ -129,7 +130,7 @@ Squidiff treats preprocessed expression as **continuous vectors** and applies **
 
 ## Training and generation algorithms (skeleton)
 
-The following pseudocode aligns the paper’s \(\epsilon\)-prediction objective with typical code paths (`q_sample`, DDIM sampling, and semantic latent editing).
+The following pseudocode aligns the paper’s $\epsilon$-prediction objective with typical code paths (`q_sample`, DDIM sampling, and semantic latent editing).
 
 ```text
 Training (per minibatch):
@@ -159,11 +160,11 @@ Generation for a target condition:
 
 | Task / setting | Baselines | Metrics (reported) | Claimed outcome | Caveats |
 |----------------|-----------|--------------------|-----------------|---------|
-| iPSC differentiation | scGen | Pearson, \(R^2\) across days; pseudotime Spearman; Jaccard on DE genes | Squidiff outperforms scGen on \(R^2\); trajectory alignment | Limited excerpt vs CPA / CellOT / biolord / foundation-model hybrids |
-| Two-gene perturbation | scGen, GEARS | Pearson, \(R^2\), MMD on **203 genes** | Strong wins; small p-values | One highlighted combination; check supplement for breadth |
+| iPSC differentiation | scGen | Pearson, $R^2$ across days; pseudotime Spearman; Jaccard on DE genes | Squidiff outperforms scGen on $R^2$; trajectory alignment | Limited excerpt vs CPA / CellOT / biolord / foundation-model hybrids |
+| Two-gene perturbation | scGen, GEARS | Pearson, $R^2$, MMD on **203 genes** | Strong wins; small p-values | One highlighted combination; check supplement for breadth |
 | Tumor drug response | (not always explicit) | UMAP; mean-expression correlation | Separation and correlation | Baseline comparisons not always spelled out in captions |
 | BVO development | (varies) | UMAP trajectories; markers | Continuous trajectories | Fewer quantitative trajectory metrics than iPSC case |
-| Irradiation + masking | internal stress test | Pearson / \(R^2\); DE; **ELISA**; **immunofluorescence** | Held-out cell types under irradiation | Distinct from unseen perturbation identity in general |
+| Irradiation + masking | internal stress test | Pearson / $R^2$; DE; **ELISA**; **immunofluorescence** | Held-out cell types under irradiation | Distinct from unseen perturbation identity in general |
 
 ### Strong evidence versus suggestive claims
 
@@ -193,10 +194,10 @@ Generation for a target condition:
 When adapting Squidiff beyond the paper’s splits, a practical validation loop includes:
 
 1. **Define the OOD axis** (unseen cell type, unseen perturbation identity, unseen combination, unseen dose or time) and mirror the paper’s masking or holdout strategy before adding new stress tests.
-2. **Metrics beyond means**: DE gene ranking stability (top-\(k\) overlap), shifts in **subtype proportions**, and **calibration** using multiple stochastic samples from the same conditional model.
-3. **Ablate semantic conditioning**: remove or shuffle \(z_{\text{sem}}\) and check whether developmental or perturbation **interpolation collapses**—this tests the core diffusion-autoencoder motivation.
+2. **Metrics beyond means**: DE gene ranking stability (top-$k$ overlap), shifts in **subtype proportions**, and **calibration** using multiple stochastic samples from the same conditional model.
+3. **Ablate semantic conditioning**: remove or shuffle $z_{\mathrm{sem}}$ and check whether developmental or perturbation **interpolation collapses**—this tests the core diffusion-autoencoder motivation.
 4. **Conditioning geometry**: compare **pure additive** shifts in hidden states to **FiLM-style** feature-wise scaling and shifting; additive bias is simple, but scaling can sometimes improve generalization on shifted covariates.
-5. **Sampler choice**: contrast **DDIM** with \(\eta=0\) versus **stochastic** sampling (\(\eta>0\)) to quantify the **diversity–fidelity** tradeoff for synthetic cells.
+5. **Sampler choice**: contrast **DDIM** with $\eta = 0$ versus **stochastic** sampling ($\eta > 0$) to quantify the **diversity–fidelity** tradeoff for synthetic cells.
 
 ### Potential extensions
 
@@ -204,23 +205,27 @@ Directions that sit naturally “next to” Squidiff in the research landscape:
 
 - **Discrete or tokenized diffusion** over genes or tokens to better respect count sparsity than Gaussian vectors on normalized expression alone.
 - **Classifier-free or multi-condition guidance** to strengthen control when multiple perturbations or dosages must be composed at generation time.
-- **Hybrid with foundation models**: use a **pretrained single-cell embedding model** to produce \(z_{\text{sem}}\), keeping Squidiff (or a lighter denoiser) as the conditional generator on top of frozen or fine-tuned representations.
+- **Hybrid with foundation models**: use a **pretrained single-cell embedding model** to produce $z_{\mathrm{sem}}$, keeping Squidiff (or a lighter denoiser) as the conditional generator on top of frozen or fine-tuned representations.
 - **Joint uncertainty**: diffusion ensembles or explicit variance heads to complement point predictions in screening settings.
 
 ## Landscape: from VAE latent shifts to diffusion
 
+The **timeline** diagram type is fragile across Mermaid versions bundled with static site generators; the same information is shown below as a **flowchart** (widely supported in Mermaid 9–10).
+
 ```{mermaid}
-timeline
-  title Single-cell perturbation modeling (schematic)
-  2019 : scGen
-  2020 : trVAE
-  2021 : CPA
-  2023 : CellOT
-  2023 : scVIDR
-  2024 : biolord
-  2024 : GEARS
-  2025 : Squidiff
-  2026 : Emerging diffusion-style perturbation models
+%%| fig-width: 8
+flowchart TB
+  y2019["2019 · scGen"]
+  y2020["2020 · trVAE"]
+  y2021["2021 · CPA"]
+  y2023a["2023 · CellOT"]
+  y2023b["2023 · scVIDR"]
+  y2024a["2024 · biolord"]
+  y2024b["2024 · GEARS"]
+  y2025["2025 · Squidiff"]
+  y2026["2026+ · diffusion-style models"]
+  y2019 --> y2020 --> y2021 --> y2023a
+  y2023a --> y2023b --> y2024a --> y2024b --> y2025 --> y2026
 ```
 
 A compact narrative:
@@ -242,25 +247,26 @@ A compact narrative:
 | Squidiff | 2025 | Conditional diffusion + semantic latent | Continuous landscapes; strong reported metrics | Cost; schedule sensitivity; count model not explicit |
 
 ```{mermaid}
+%%| fig-width: 8
 sequenceDiagram
   autonumber
   participant X0 as Baseline cells
   participant Enc as Semantic encoder
-  participant Z as z_sem
+  participant Z as Semantic latent
   participant Sam as DDIM sampler
   participant Den as Denoiser
-  participant Out as Predicted x0
+  participant Out as Predicted expr.
 
-  X0->>Enc: encode with metadata
+  X0->>Enc: Encode with metadata
   Enc-->>Z: z_base
-  Note over Z: z_target = edit z_base
-  Sam->>Sam: x_T ~ Normal(0,I)
-  loop t = T to 1
-    Sam->>Den: epsilon_hat = model(x_t, t, z_target)
-    Den-->>Sam: epsilon_hat
-    Sam->>Sam: DDIM update x_{t-1}
+  Note over Z: Set z_target for condition
+  Sam->>Sam: Draw initial noise x_T
+  loop Each reverse step
+    Sam->>Den: Noise prediction at step t
+    Den-->>Sam: Epsilon hat
+    Sam->>Sam: Apply DDIM update
   end
-  Sam-->>Out: x0_hat
+  Sam-->>Out: Final x0 hat
 ```
 
 ## Conclusion

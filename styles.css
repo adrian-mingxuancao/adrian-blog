@@ -1,1 +1,33 @@
 /* css styles */
+
+/* Math: avoid cramped inline formulas next to punctuation */
+.MathJax,
+mjx-container {
+  overflow-x: auto;
+  max-width: 100%;
+}
+
+/* Mermaid / diagram cells (Quarto diagram engine) */
+pre.mermaid,
+pre.mermaid-js,
+.cell-output-display pre.mermaid,
+figure pre.mermaid {
+  text-align: center;
+  margin: 1.75rem auto;
+  padding: 1.25rem 1rem;
+  background: rgba(0, 0, 0, 0.03);
+  border: 1px solid rgba(0, 0, 0, 0.08);
+  border-radius: 0.5rem;
+  overflow-x: auto;
+}
+
+body.quarto-dark .mermaid,
+body[data-bs-theme="dark"] .mermaid {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+/* Slightly larger body text for long-form posts (optional comfort) */
+main .content {
+  line-height: 1.65;
+}
