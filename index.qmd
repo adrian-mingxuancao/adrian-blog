@@ -8,6 +8,8 @@ This blog explores the intersection of genomics, generative modeling, and bioinf
 
 ## Recent Posts
 
+- [Squidiff: Conditional Diffusion for Single-Cell Perturbation Prediction](blog-posts/squidiff-single-cell-diffusion-perturbation.html) - A synthesis of Squidiff’s semantic-conditioned diffusion model for developmental trajectories and perturbations (drugs, genetics, radiation), with comparisons to scGen and GEARS and notes on reproducibility.
+
 - [A Synthesis of Multimodal Reasoning in Genomics](blog-posts/multimodel-reasoning-in-genomics.html) - Exploring the paradigm shift from statistical associations to mechanistic biological understanding through BioReason and Genome-Bench in the context of GWAS.
 
 - [Diffusion Models in Genomics: DNA-Diffusion and DiscDiff](blog-posts/dna-diffusion-genomic-sequences.html) - An in-depth comparison of two cutting-edge diffusion models for genomic sequence generation, exploring their architectures, performance metrics, and implications for the future of generative modeling in genomics.
@@ -16,7 +18,7 @@ This blog explores the intersection of genomics, generative modeling, and bioinf
 
 ## About This Blog
 
-This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics and language model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.
+This blog serves as a platform for sharing insights from recent research papers, particularly focusing on computational genomics, generative modeling for single-cell data (including diffusion and perturbation prediction), and language-model applications in biology. Each post aims to provide both technical depth and accessible explanations of complex genomic concepts.
 
 ---
 

@@ -6,6 +6,21 @@ Welcome to my collection of blog posts on genomics, generative modeling, and bio
 
 ## Recent Posts
 
+### [Squidiff: Conditional Diffusion for Single-Cell Development and Perturbation Prediction](squidiff-single-cell-diffusion-perturbation.html)
+
+*April 11, 2026*
+
+A synthesis of Squidiff, a conditional diffusion model for predicting single-cell transcriptomes along developmental trajectories and under perturbations, with semantic latent conditioning, DDIM sampling, and critical discussion of evidence strength, OOD masking experiments, and reproducibility (code, PyPI, checkpoints, license hygiene).
+
+**Topics covered:**
+
+- Semantic-conditioned diffusion and diffusion-autoencoder motivation
+- Datasets: differentiation, gene and drug perturbation, organoids, irradiation
+- Comparisons to scGen, GEARS, and the broader VAE / OT / GNN landscape
+- Evaluation metrics, limitations, and practical validation strategies
+
+---
+
 ### [A Synthesis of Multimodal Reasoning in Genomics: Analyzing BioReason and Genome-Bench in the Context of GWAS](multimodel-reasoning-in-genomics.html)
 
 *September 27, 2025*

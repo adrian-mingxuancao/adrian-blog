@@ -1,0 +1,973 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en"><head>
+
+<meta charset="utf-8">
+<meta name="generator" content="quarto-1.7.32">
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+
+<meta name="author" content="Adrian">
+<meta name="dcterms.date" content="2026-04-11">
+
+<title>Squidiff: Conditional Diffusion for Single-Cell Development and Perturbation Prediction – Adrian’s Generative Genomics Blog</title>
+<style>
+code{white-space: pre-wrap;}
+span.smallcaps{font-variant: small-caps;}
+div.columns{display: flex; gap: min(4vw, 1.5em);}
+div.column{flex: auto; overflow-x: auto;}
+div.hanging-indent{margin-left: 1.5em; text-indent: -1.5em;}
+ul.task-list{list-style: none;}
+ul.task-list li input[type="checkbox"] {
+  width: 0.8em;
+  margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
+  vertical-align: middle;
+}
+</style>
+
+
+<script src="../site_libs/quarto-nav/quarto-nav.js"></script>
+<script src="../site_libs/quarto-nav/headroom.min.js"></script>
+<script src="../site_libs/clipboard/clipboard.min.js"></script>
+<script src="../site_libs/quarto-search/autocomplete.umd.js"></script>
+<script src="../site_libs/quarto-search/fuse.min.js"></script>
+<script src="../site_libs/quarto-search/quarto-search.js"></script>
+<meta name="quarto:offset" content="../">
+<script src="../site_libs/quarto-html/quarto.js" type="module"></script>
+<script src="../site_libs/quarto-html/tabsets/tabsets.js" type="module"></script>
+<script src="../site_libs/quarto-html/popper.min.js"></script>
+<script src="../site_libs/quarto-html/tippy.umd.min.js"></script>
+<script src="../site_libs/quarto-html/anchor.min.js"></script>
+<link href="../site_libs/quarto-html/tippy.css" rel="stylesheet">
+<link href="../site_libs/quarto-html/quarto-syntax-highlighting-37eea08aefeeee20ff55810ff984fec1.css" rel="stylesheet" id="quarto-text-highlighting-styles">
+<script src="../site_libs/bootstrap/bootstrap.min.js"></script>
+<link href="../site_libs/bootstrap/bootstrap-icons.css" rel="stylesheet">
+<link href="../site_libs/bootstrap/bootstrap-e2ec580592f0bca8c79b521847304919.min.css" rel="stylesheet" append-hash="true" id="quarto-bootstrap" data-mode="light">
+<script id="quarto-search-options" type="application/json">{
+  "location": "navbar",
+  "copy-button": false,
+  "collapse-after": 3,
+  "panel-placement": "end",
+  "type": "overlay",
+  "limit": 50,
+  "keyboard-shortcut": [
+    "f",
+    "/",
+    "s"
+  ],
+  "show-item-context": false,
+  "language": {
+    "search-no-results-text": "No results",
+    "search-matching-documents-text": "matching documents",
+    "search-copy-link-title": "Copy link to search",
+    "search-hide-matches-text": "Hide additional matches",
+    "search-more-match-text": "more match in this document",
+    "search-more-matches-text": "more matches in this document",
+    "search-clear-button-title": "Clear",
+    "search-text-placeholder": "",
+    "search-detached-cancel-button-title": "Cancel",
+    "search-submit-button-title": "Submit",
+    "search-label": "Search"
+  }
+}</script>
+<script src="../site_libs/quarto-diagram/mermaid.min.js"></script>
+<script src="../site_libs/quarto-diagram/mermaid-init.js"></script>
+<link href="../site_libs/quarto-diagram/mermaid.css" rel="stylesheet">
+
+
+<link rel="stylesheet" href="../styles.css">
+</head>
+
+<body class="floating nav-fixed quarto-light">
+
+<div id="quarto-search-results"></div>
+  <header id="quarto-header" class="headroom fixed-top">
+    <nav class="navbar navbar-expand-lg " data-bs-theme="dark">
+      <div class="navbar-container container-fluid">
+      <div class="navbar-brand-container mx-auto">
+    <a class="navbar-brand" href="../index.html">
+    <span class="navbar-title">Adrian’s Generative Genomics Blog</span>
+    </a>
+  </div>
+            <div id="quarto-search" class="" title="Search"></div>
+          <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse" aria-controls="navbarCollapse" role="menu" aria-expanded="false" aria-label="Toggle navigation" onclick="if (window.quartoToggleHeadroom) { window.quartoToggleHeadroom(); }">
+  <span class="navbar-toggler-icon"></span>
+</button>
+          <div class="collapse navbar-collapse" id="navbarCollapse">
+            <ul class="navbar-nav navbar-nav-scroll me-auto">
+  <li class="nav-item">
+    <a class="nav-link" href="../index.html"> 
+<span class="menu-text">Home</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../blog-posts/"> 
+<span class="menu-text">Blog Posts</span></a>
+  </li>  
+  <li class="nav-item">
+    <a class="nav-link" href="../about.html"> 
+<span class="menu-text">About</span></a>
+  </li>  
+</ul>
+          </div> <!-- /navcollapse -->
+            <div class="quarto-navbar-tools">
+</div>
+      </div> <!-- /container-fluid -->
+    </nav>
+</header>
+<!-- content -->
+<div id="quarto-content" class="quarto-container page-columns page-rows-contents page-layout-article page-navbar">
+<!-- sidebar -->
+  <nav id="quarto-sidebar" class="sidebar collapse collapse-horizontal quarto-sidebar-collapse-item sidebar-navigation floating overflow-auto">
+    <nav id="TOC" role="doc-toc" class="toc-active">
+    <h2 id="toc-title">On this page</h2>
+   
+  <ul>
+  <li><a href="#introduction" id="toc-introduction" class="nav-link active" data-scroll-target="#introduction">Introduction</a></li>
+  <li><a href="#executive-summary" id="toc-executive-summary" class="nav-link" data-scroll-target="#executive-summary">Executive summary</a></li>
+  <li><a href="#problem-framing-and-datasets" id="toc-problem-framing-and-datasets" class="nav-link" data-scroll-target="#problem-framing-and-datasets">Problem framing and datasets</a></li>
+  <li><a href="#model-architecture" id="toc-model-architecture" class="nav-link" data-scroll-target="#model-architecture">Model architecture</a>
+  <ul class="collapse">
+  <li><a href="#reverse-diffusion-with-semantic-conditioning" id="toc-reverse-diffusion-with-semantic-conditioning" class="nav-link" data-scroll-target="#reverse-diffusion-with-semantic-conditioning">Reverse diffusion with semantic conditioning</a></li>
+  <li><a href="#implementation-sketch-from-the-released-code" id="toc-implementation-sketch-from-the-released-code" class="nav-link" data-scroll-target="#implementation-sketch-from-the-released-code">Implementation sketch (from the released code)</a></li>
+  <li><a href="#defaults-and-the-drug-structure-hook" id="toc-defaults-and-the-drug-structure-hook" class="nav-link" data-scroll-target="#defaults-and-the-drug-structure-hook">Defaults and the drug-structure hook</a></li>
+  </ul></li>
+  <li><a href="#training-objective" id="toc-training-objective" class="nav-link" data-scroll-target="#training-objective">Training objective</a></li>
+  <li><a href="#conditioning-and-generation" id="toc-conditioning-and-generation" class="nav-link" data-scroll-target="#conditioning-and-generation">Conditioning and generation</a></li>
+  <li><a href="#why-diffusion-fits-single-cell-perturbation-prediction" id="toc-why-diffusion-fits-single-cell-perturbation-prediction" class="nav-link" data-scroll-target="#why-diffusion-fits-single-cell-perturbation-prediction">Why diffusion fits single-cell perturbation prediction</a>
+  <ul class="collapse">
+  <li><a href="#forward-and-reverse-process" id="toc-forward-and-reverse-process" class="nav-link" data-scroll-target="#forward-and-reverse-process">Forward and reverse process</a></li>
+  <li><a href="#compared-with-vaes-gans-and-flows" id="toc-compared-with-vaes-gans-and-flows" class="nav-link" data-scroll-target="#compared-with-vaes-gans-and-flows">Compared with VAEs, GANs, and flows</a></li>
+  </ul></li>
+  <li><a href="#training-and-generation-algorithms-skeleton" id="toc-training-and-generation-algorithms-skeleton" class="nav-link" data-scroll-target="#training-and-generation-algorithms-skeleton">Training and generation algorithms (skeleton)</a></li>
+  <li><a href="#evidence-and-empirical-comparisons" id="toc-evidence-and-empirical-comparisons" class="nav-link" data-scroll-target="#evidence-and-empirical-comparisons">Evidence and empirical comparisons</a>
+  <ul class="collapse">
+  <li><a href="#summary-of-reported-evaluations" id="toc-summary-of-reported-evaluations" class="nav-link" data-scroll-target="#summary-of-reported-evaluations">Summary of reported evaluations</a></li>
+  <li><a href="#strong-evidence-versus-suggestive-claims" id="toc-strong-evidence-versus-suggestive-claims" class="nav-link" data-scroll-target="#strong-evidence-versus-suggestive-claims">Strong evidence versus suggestive claims</a></li>
+  </ul></li>
+  <li><a href="#practical-applicability-assumptions-and-reproducibility" id="toc-practical-applicability-assumptions-and-reproducibility" class="nav-link" data-scroll-target="#practical-applicability-assumptions-and-reproducibility">Practical applicability, assumptions, and reproducibility</a>
+  <ul class="collapse">
+  <li><a href="#suggested-ablations-and-local-validation" id="toc-suggested-ablations-and-local-validation" class="nav-link" data-scroll-target="#suggested-ablations-and-local-validation">Suggested ablations and local validation</a></li>
+  <li><a href="#potential-extensions" id="toc-potential-extensions" class="nav-link" data-scroll-target="#potential-extensions">Potential extensions</a></li>
+  </ul></li>
+  <li><a href="#landscape-from-vae-latent-shifts-to-diffusion" id="toc-landscape-from-vae-latent-shifts-to-diffusion" class="nav-link" data-scroll-target="#landscape-from-vae-latent-shifts-to-diffusion">Landscape: from VAE latent shifts to diffusion</a></li>
+  <li><a href="#conclusion" id="toc-conclusion" class="nav-link" data-scroll-target="#conclusion">Conclusion</a></li>
+  </ul>
+</nav>
+</nav>
+<div id="quarto-sidebar-glass" class="quarto-sidebar-collapse-item" data-bs-toggle="collapse" data-bs-target=".quarto-sidebar-collapse-item"></div>
+<!-- margin-sidebar -->
+    <div id="quarto-margin-sidebar" class="sidebar margin-sidebar zindex-bottom">
+    </div>
+<!-- main -->
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Squidiff: Conditional Diffusion for Single-Cell Development and Perturbation Prediction</h1>
+</div>
+
+
+
+<div class="quarto-title-meta">
+
+    <div>
+    <div class="quarto-title-meta-heading">Author</div>
+    <div class="quarto-title-meta-contents">
+             <p>Adrian </p>
+          </div>
+  </div>
+    
+    <div>
+    <div class="quarto-title-meta-heading">Published</div>
+    <div class="quarto-title-meta-contents">
+      <p class="date">April 11, 2026</p>
+    </div>
+  </div>
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="introduction" class="level2">
+<h2 class="anchored" data-anchor-id="introduction">Introduction</h2>
+<p>Single-cell RNA sequencing has made it possible to profile transcriptomes at massive scale, yet measuring responses across every combination of cell state, drug, genetic perturbation, and time point remains expensive. <strong>Squidiff</strong> is a conditional diffusion generative model aimed at predicting single-cell transcriptomic states along <strong>developmental trajectories</strong> and under <strong>perturbations</strong> (for example drugs, gene knockouts, or physical stimuli such as radiation). A central ambition is to learn <strong>continuous, high-resolution state landscapes</strong>, not only mean shifts between conditions.</p>
+<p>This post synthesizes the model’s design, how it relates to earlier perturbation predictors, what the published evaluations suggest, and what to watch for when reproducing or extending the method.</p>
+</section>
+<section id="executive-summary" class="level2">
+<h2 class="anchored" data-anchor-id="executive-summary">Executive summary</h2>
+<p>Squidiff conditions a reverse diffusion process on a <strong>semantic latent</strong> (z_{}) from a <strong>semantic encoder</strong> (described in the paper as VAE-derived). The motivation, borrowed from <strong>diffusion autoencoder</strong> ideas, is that the “low-level” diffusion latent (x_T) alone is often <strong>not semantically smooth</strong> for interpolation; adding (z_{}) steers sampling toward biologically meaningful directions.</p>
+<p>Reported results include stronger performance than <strong>scGen</strong> on an iPSC differentiation prediction task (for example (R^2) across days) and stronger performance than <strong>scGen</strong> and <strong>GEARS</strong> on a two-gene perturbation example (ZBTB25+PTPN12), with metrics computed on <strong>203 genes</strong> in that setting, using <strong>Pearson correlation</strong>, <strong>(R^2)</strong>, and <strong>MMD</strong>, with very small p-values in the paper’s reporting. For <strong>out-of-distribution</strong> stress testing, the authors describe a masking experiment in blood vessel organoids: some cell types are withheld from training under irradiation, yet the model still generates irradiated-state transcriptomes for those held-out types with high accuracy according to their analysis; complementary readouts such as <strong>ELISA</strong> and <strong>immunofluorescence</strong> are used alongside transcriptomic analyses in the organoid work.</p>
+<p>On the engineering side, the authors provide a <strong>public codebase</strong>, a <strong>PyPI package</strong> (<code>Squidiff</code>), and a reproducibility repository that claims <strong>checkpoints on figshare</strong> (access may vary by network or institution). One practical caveat: the GitHub <strong>LICENSE</strong> file has been reported to contain unresolved merge conflict markers, which is worth fixing for anyone redistributing or building on the code.</p>
+</section>
+<section id="problem-framing-and-datasets" class="level2">
+<h2 class="anchored" data-anchor-id="problem-framing-and-datasets">Problem framing and datasets</h2>
+<p>The paper frames single-cell perturbation response prediction as a bottleneck because exhaustively profiling transcriptomes across chemical, genetic, and physical conditions is costly. Squidiff is positioned as an <strong>in silico perturbation screen</strong> and as a way to model developmental “future” or “past” states under specified stimuli.</p>
+<p>Evaluations and illustrations in the manuscript span several settings:</p>
+<ul>
+<li><strong>Differentiation (iPSC toward mesendoderm / definitive endoderm)</strong>, using a differentiating iPSC scRNA-seq dataset (Cuomo et al., 2020). Expression is log-normalized; highly variable genes (for example top 500) are used for computational tractability.</li>
+<li><strong>Gene perturbation</strong>, with emphasis on predicting a <strong>two-gene combination</strong> (ZBTB25+PTPN12) compared against scGen and GEARS (the paper reports results on <strong>203 genes</strong> for that comparison).</li>
+<li><strong>Drug response in human tumor tissue</strong> (Zhao et al., 2021), with analysis across multiple cell types (for example UMAP structure and correlation of mean expression).</li>
+<li><strong>Blood vessel organoids (BVO)</strong> for developmental interpolation and <strong>neutron/proton irradiation</strong> perturbations, with pathway-level interpretation and supporting <strong>ELISA</strong> and <strong>immunofluorescence</strong> where reported.</li>
+<li><strong>Simulated data</strong> (including references to Splatter) to visualize aspects of the diffusion process; full simulation details may require the supplement.</li>
+</ul>
+<p>Exact GEO accessions are not consistently recoverable from short excerpts alone; for a publication-grade bibliography, verify accession numbers against the final PDF and supplementary tables.</p>
+</section>
+<section id="model-architecture" class="level2">
+<h2 class="anchored" data-anchor-id="model-architecture">Model architecture</h2>
+<p>At a high level, Squidiff is a <strong>conditional diffusion model</strong> that predicts transcriptome vectors through a reverse diffusion process conditioned on a semantic embedding (z_{}).</p>
+<section id="reverse-diffusion-with-semantic-conditioning" class="level3">
+<h3 class="anchored" data-anchor-id="reverse-diffusion-with-semantic-conditioning">Reverse diffusion with semantic conditioning</h3>
+<p>The conditional reverse process is written as</p>
+<p>[ p_(x_{0:T}z_{})=p(x_T)<em>{t=1}^T p</em>(x_{t-1}x_t, z_{}), ]</p>
+<p>with an (<em>(x_t,t,z</em>{}))-parameterized deterministic update in the <strong>DDIM</strong> style to step from noise toward data-like vectors.</p>
+<p><strong>Why (z_{})?</strong> The paper argues that the diffusion latent (x_T) “typically does not contain high-level semantics,” so interpolation purely in (x_T) is not semantically meaningful. Conditioning on (z_{}) is intended to make latent manipulation align with biological factors such as perturbation direction or developmental stage.</p>
+</section>
+<section id="implementation-sketch-from-the-released-code" class="level3">
+<h3 class="anchored" data-anchor-id="implementation-sketch-from-the-released-code">Implementation sketch (from the released code)</h3>
+<p>The public package uses an <strong>MLP denoiser</strong>: a main <code>MLPModel</code> maps gene expression vectors through stacked blocks with a <strong>time embedding</strong> (SiLU MLP). Conditioning is <strong>additive</strong> in each block: hidden activations are shifted by learned linear maps of the timestep embedding and, when present, of (z_{})—closer to additive conditioning than U-Net cross-attention in image diffusion. A semantic encoder (<code>EncoderMLPModel</code>) outputs a latent (default size 60) and can concatenate <strong>label embeddings</strong> or <strong>drug-structure / dose</strong> features when enabled.</p>
+</section>
+<section id="defaults-and-the-drug-structure-hook" class="level3">
+<h3 class="anchored" data-anchor-id="defaults-and-the-drug-structure-hook">Defaults and the drug-structure hook</h3>
+<p>From the released code and training scripts, several defaults are easy to miss but matter for reproduction:</p>
+<ul>
+<li><strong>Hidden width</strong> on the order of <strong>2048</strong> in the MLP denoiser, with <strong>semantic latent dimension 60</strong> unless overridden.</li>
+<li><strong>Diffusion steps</strong> commonly set to <strong>1000</strong> (standard DDPM-style schedule), with <strong>DDIM</strong> as the default sampler when <code>use_ddim=True</code>.</li>
+<li><strong>Drug conditioning</strong>: when <code>use_drug_structure</code> is on, the encoder concatenates <strong>control features</strong>, <strong>drug dose</strong>, and a <strong>drug-structure vector</strong>; the codebase expects a fixed <strong>drug embedding width</strong> (on the order of <strong>1024</strong> dimensions). How that vector is produced—learned end-to-end versus a <strong>precomputed molecular fingerprint or neural fingerprint</strong>—should be checked against the paper, supplement, and config you run; treat “structure-aware generalization” claims as <strong>paper claims</strong> until you trace the exact pipeline.</li>
+<li><strong>PyPI</strong>: a package named <strong><code>Squidiff</code></strong> has been listed on PyPI (for example version <strong>1.0.8</strong> with a <strong>February 21, 2025</strong> release date in the index metadata—confirm the current version on <a href="https://pypi.org/project/Squidiff/">PyPI</a> before pinning dependencies). Python <strong>≥3.8</strong> is typical for such releases.</li>
+</ul>
+</section>
+</section>
+<section id="training-objective" class="level2">
+<h2 class="anchored" data-anchor-id="training-objective">Training objective</h2>
+<p>Training follows the standard <strong>noise-prediction</strong> objective:</p>
+<p>[ <em>{}=</em>{t=1}^T _{x_0,_t},_t(0,1). ]</p>
+<p>When the implementation <strong>learns per-timestep variance</strong> (the “improved diffusion” pattern), the objective often adds a <strong>variational bound</strong> term (<em>{}) alongside (</em>{}), so the total loss can be written schematically as (=<em>{}+</em>{}) when <code>learn_sigma</code> or equivalent flags are enabled.</p>
+<p>In code, (x_t) is sampled with a <code>q_sample</code>-style forward diffusion, the model is called on ((x_t, t)) with access to the baseline (x_0) for encoding (z_{}), and MSE is computed against the sampled noise () when using ()-prediction; optional VB terms appear when variance is learned rather than fixed.</p>
+</section>
+<section id="conditioning-and-generation" class="level2">
+<h2 class="anchored" data-anchor-id="conditioning-and-generation">Conditioning and generation</h2>
+<p><strong>Conceptually</strong>, the model learns perturbation or developmental “direction” in semantic space and uses that direction to generate intermediate or perturbed transcriptomes. For differentiation from day 0 to day 3, the paper describes extracting semantic latents (z^{(1)}<em>{}, z^{(2)}</em>{}) and using (z_{}) as a direction vector.</p>
+<p><strong>In practice</strong>, the sampler defaults to <strong>DDIM</strong> (<code>ddim_sample_loop</code> when <code>use_ddim=True</code>). The API can implement interpolation via something like</p>
+<p>[ z_{}=(z_{})+(), ]</p>
+<p>optionally adding noise for <strong>per-cell diversity</strong>, then generating expression with DDIM conditioned on (z_{}).</p>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">flowchart LR
+  A[Input: baseline expression x0] --&gt; B[Preprocess: log-normalize, HVGs]
+  B --&gt; C[Semantic encoder: z_sem]
+  D[Metadata: cell type, time, perturbation, dose] --&gt; C
+  C --&gt; E[Edit latent: delta z or interpolation]
+  E --&gt; F[Initialize x_T ~ Normal]
+  F --&gt; G[Denoiser: epsilon_theta of x_t, t, z]
+  G --&gt; H[DDIM steps to x0_hat]
+  H --&gt; I[Predicted transcriptome]
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="why-diffusion-fits-single-cell-perturbation-prediction" class="level2">
+<h2 class="anchored" data-anchor-id="why-diffusion-fits-single-cell-perturbation-prediction">Why diffusion fits single-cell perturbation prediction</h2>
+<section id="forward-and-reverse-process" class="level3">
+<h3 class="anchored" data-anchor-id="forward-and-reverse-process">Forward and reverse process</h3>
+<p>In DDPM-style diffusion, a forward process gradually adds Gaussian noise:</p>
+<p>[ q(x_t|x_{t-1})=(x_t;x_{t-1},_t I), ]</p>
+<p>so that</p>
+<p>[ x_t=x_0+,,(0,I). ]</p>
+<p>The model learns to approximate the reverse process by predicting noise (or equivalent reparameterizations). <strong>DDIM</strong> enables faster, near-deterministic sampling (()), which matches Squidiff’s emphasis on controlled interpolation.</p>
+<p>From a <strong>score-matching</strong> perspective, learning to denoise at many noise levels acts as a strong regularizer in high-dimensional gene space—useful when populations are heterogeneous and responses are multi-modal.</p>
+</section>
+<section id="compared-with-vaes-gans-and-flows" class="level3">
+<h3 class="anchored" data-anchor-id="compared-with-vaes-gans-and-flows">Compared with VAEs, GANs, and flows</h3>
+<ul>
+<li><strong>VAE family (scGen, trVAE, CPA, scVIDR, and related work)</strong> optimizes an ELBO with a KL term that can encourage overly smooth latents; <strong>scGen</strong> uses VAE latent arithmetic for perturbation effects, which is powerful but still bounded by decoder capacity and the latent arithmetic assumption.</li>
+<li><strong>GAN-based scRNA-seq generators (for example scPreGAN-style approaches)</strong> can suffer from <strong>mode collapse</strong> and training instability in high dimensions—problematic when perturbation prediction must preserve both bulk shifts and rare subpopulations. Diffusion’s noise-prediction objective is typically easier to optimize and tends to retain broader mode coverage.</li>
+<li><strong>Diffusion</strong> avoids adversarial training, often achieves better <strong>mode coverage</strong> than GANs in practice, and uses a simple noise-prediction loss that scales with model capacity.</li>
+<li><strong>Normalizing flows</strong> give exact likelihoods but impose architectural constraints that can be tight for very high-dimensional transcriptomes; diffusion trades slower sampling for flexibility, mitigated in part by DDIM.</li>
+</ul>
+<p>Squidiff treats preprocessed expression as <strong>continuous vectors</strong> and applies <strong>Gaussian diffusion</strong>, with an MLP denoiser rather than a convolutional U-Net. The biological hook is <strong>semantic conditioning</strong> and <strong>semantic vector arithmetic</strong> for trajectories and perturbations.</p>
+</section>
+</section>
+<section id="training-and-generation-algorithms-skeleton" class="level2">
+<h2 class="anchored" data-anchor-id="training-and-generation-algorithms-skeleton">Training and generation algorithms (skeleton)</h2>
+<p>The following pseudocode aligns the paper’s ()-prediction objective with typical code paths (<code>q_sample</code>, DDIM sampling, and semantic latent editing).</p>
+<pre class="text"><code>Training (per minibatch):
+  z_sem &lt;- Encode(x0, metadata)
+  t &lt;- sample timestep
+  eps &lt;- Normal(0, I)
+  x_t &lt;- sqrt(alpha_bar_t)*x0 + sqrt(1-alpha_bar_t)*eps
+  eps_hat &lt;- Denoiser(x_t, t, z_sem)
+  loss &lt;- ||eps - eps_hat||^2
+  # if learn_sigma: loss &lt;- loss + L_VB (variational bound on variance)
+  update parameters</code></pre>
+<pre class="text"><code>Generation for a target condition:
+  z_base &lt;- Encode(x0_base, metadata_base)
+  z_target &lt;- mean(z_base) + direction * scale   (or interpolate / add noise)
+  x_T ~ Normal(0, I)
+  for t from T down to 1:
+      x_{t-1} &lt;- DDIM_step(x_t, Denoiser(x_t, t, z_target), t)
+  return x_0_hat</code></pre>
+</section>
+<section id="evidence-and-empirical-comparisons" class="level2">
+<h2 class="anchored" data-anchor-id="evidence-and-empirical-comparisons">Evidence and empirical comparisons</h2>
+<section id="summary-of-reported-evaluations" class="level3">
+<h3 class="anchored" data-anchor-id="summary-of-reported-evaluations">Summary of reported evaluations</h3>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 21%">
+<col style="width: 15%">
+<col style="width: 27%">
+<col style="width: 23%">
+<col style="width: 12%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Task / setting</th>
+<th>Baselines</th>
+<th>Metrics (reported)</th>
+<th>Claimed outcome</th>
+<th>Caveats</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>iPSC differentiation</td>
+<td>scGen</td>
+<td>Pearson, (R^2) across days; pseudotime Spearman; Jaccard on DE genes</td>
+<td>Squidiff outperforms scGen on (R^2); trajectory alignment</td>
+<td>Limited excerpt vs CPA / CellOT / biolord / foundation-model hybrids</td>
+</tr>
+<tr class="even">
+<td>Two-gene perturbation</td>
+<td>scGen, GEARS</td>
+<td>Pearson, (R^2), MMD on <strong>203 genes</strong></td>
+<td>Strong wins; small p-values</td>
+<td>One highlighted combination; check supplement for breadth</td>
+</tr>
+<tr class="odd">
+<td>Tumor drug response</td>
+<td>(not always explicit)</td>
+<td>UMAP; mean-expression correlation</td>
+<td>Separation and correlation</td>
+<td>Baseline comparisons not always spelled out in captions</td>
+</tr>
+<tr class="even">
+<td>BVO development</td>
+<td>(varies)</td>
+<td>UMAP trajectories; markers</td>
+<td>Continuous trajectories</td>
+<td>Fewer quantitative trajectory metrics than iPSC case</td>
+</tr>
+<tr class="odd">
+<td>Irradiation + masking</td>
+<td>internal stress test</td>
+<td>Pearson / (R^2); DE; <strong>ELISA</strong>; <strong>immunofluorescence</strong></td>
+<td>Held-out cell types under irradiation</td>
+<td>Distinct from unseen perturbation identity in general</td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="strong-evidence-versus-suggestive-claims" class="level3">
+<h3 class="anchored" data-anchor-id="strong-evidence-versus-suggestive-claims">Strong evidence versus suggestive claims</h3>
+<p><strong>Relatively well supported</strong> in the main text and figures: metric-based improvements over scGen on differentiation; metric-based improvements over scGen and GEARS on the named two-gene case; and the <strong>irradiation masking</strong> experiment as a meaningful test of generalization across cell types within a perturbation setting.</p>
+<p><strong>Worth verifying</strong> in supplements, code, or independent runs: how <strong>drug structure</strong> embeddings are formed when <code>use_drug_structure</code> is enabled; how many gene combinations were evaluated beyond the showcase pair; and any headline claims about <strong>millions of cells</strong> or <strong>entirely new compounds</strong> against the actual training data and preprocessing.</p>
+</section>
+</section>
+<section id="practical-applicability-assumptions-and-reproducibility" class="level2">
+<h2 class="anchored" data-anchor-id="practical-applicability-assumptions-and-reproducibility">Practical applicability, assumptions, and reproducibility</h2>
+<p><strong>Good fit</strong> when you need distribution-aware generation of post-perturbation cells (sampling heterogeneity, not only the mean), <strong>continuous trajectories</strong> (development, dose, time), or modeling of <strong>non-linear</strong> gene programs where multi-scale denoising may help.</p>
+<p><strong>Modeling assumptions</strong> include Gaussian diffusion on <strong>normalized</strong> expression: zero-inflated counts are handled only indirectly through preprocessing, not through a discrete count likelihood.</p>
+<p><strong>Compute</strong>: Diffusion training and sampling can be slower than single-pass VAE decoders; the paper notes sensitivity to noise schedules (for example tuning by gradually adding noise and selecting a strong configuration) and hardware—for instance training on a single <strong>NVIDIA H100 (80 GB)</strong> in at least one reported setup, which signals non-trivial GPU requirements.</p>
+<p><strong>Generalization</strong> has multiple axes: unseen <strong>cell type</strong> (partially tested via masking), unseen <strong>perturbation identity</strong>, unseen <strong>combination</strong>, unseen <strong>dose</strong> or <strong>time</strong>. The blog reader should map claims carefully onto these axes.</p>
+<p><strong>Reproducibility checklist</strong></p>
+<ul>
+<li>Code on GitHub; install via <code>pip install Squidiff</code> (as of early 2025 the index showed <strong>1.0.8</strong> released <strong>2025-02-21</strong>; re-check <a href="https://pypi.org/project/Squidiff/">PyPI</a> before pinning).</li>
+<li>Example training commands with optional drug-structure features; diffusion steps often default around <strong>1000</strong>; DDIM sampling commonly default-on.</li>
+<li>Checkpoints described as on figshare in the reproducibility materials—confirm download before relying on them.</li>
+<li>Resolve <strong>LICENSE</strong> merge markers if you need clear redistribution terms.</li>
+</ul>
+<section id="suggested-ablations-and-local-validation" class="level3">
+<h3 class="anchored" data-anchor-id="suggested-ablations-and-local-validation">Suggested ablations and local validation</h3>
+<p>When adapting Squidiff beyond the paper’s splits, a practical validation loop includes:</p>
+<ol type="1">
+<li><strong>Define the OOD axis</strong> (unseen cell type, unseen perturbation identity, unseen combination, unseen dose or time) and mirror the paper’s masking or holdout strategy before adding new stress tests.</li>
+<li><strong>Metrics beyond means</strong>: DE gene ranking stability (top-(k) overlap), shifts in <strong>subtype proportions</strong>, and <strong>calibration</strong> using multiple stochastic samples from the same conditional model.</li>
+<li><strong>Ablate semantic conditioning</strong>: remove or shuffle (z_{}) and check whether developmental or perturbation <strong>interpolation collapses</strong>—this tests the core diffusion-autoencoder motivation.</li>
+<li><strong>Conditioning geometry</strong>: compare <strong>pure additive</strong> shifts in hidden states to <strong>FiLM-style</strong> feature-wise scaling and shifting; additive bias is simple, but scaling can sometimes improve generalization on shifted covariates.</li>
+<li><strong>Sampler choice</strong>: contrast <strong>DDIM</strong> with () versus <strong>stochastic</strong> sampling ((&gt;0)) to quantify the <strong>diversity–fidelity</strong> tradeoff for synthetic cells.</li>
+</ol>
+</section>
+<section id="potential-extensions" class="level3">
+<h3 class="anchored" data-anchor-id="potential-extensions">Potential extensions</h3>
+<p>Directions that sit naturally “next to” Squidiff in the research landscape:</p>
+<ul>
+<li><strong>Discrete or tokenized diffusion</strong> over genes or tokens to better respect count sparsity than Gaussian vectors on normalized expression alone.</li>
+<li><strong>Classifier-free or multi-condition guidance</strong> to strengthen control when multiple perturbations or dosages must be composed at generation time.</li>
+<li><strong>Hybrid with foundation models</strong>: use a <strong>pretrained single-cell embedding model</strong> to produce (z_{}), keeping Squidiff (or a lighter denoiser) as the conditional generator on top of frozen or fine-tuned representations.</li>
+<li><strong>Joint uncertainty</strong>: diffusion ensembles or explicit variance heads to complement point predictions in screening settings.</li>
+</ul>
+</section>
+</section>
+<section id="landscape-from-vae-latent-shifts-to-diffusion" class="level2">
+<h2 class="anchored" data-anchor-id="landscape-from-vae-latent-shifts-to-diffusion">Landscape: from VAE latent shifts to diffusion</h2>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">timeline
+  title Single-cell perturbation modeling (schematic)
+  2019 : scGen
+  2020 : trVAE
+  2021 : CPA
+  2023 : CellOT
+  2023 : scVIDR
+  2024 : biolord
+  2024 : GEARS
+  2025 : Squidiff
+  2026 : Emerging diffusion-style perturbation models
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+<p>A compact narrative:</p>
+<ul>
+<li>The <strong>VAE era</strong> emphasized interpretable latent shifts and compositionality but could smooth or mean-bias generations under strong shift.</li>
+<li><strong>Optimal transport (CellOT)</strong> emphasized mapping whole distributions and subpopulations.</li>
+<li><strong>GEARS</strong> brought <strong>gene–gene knowledge graphs</strong> to multigene perturbation prediction.</li>
+<li><strong>Diffusion (Squidiff and successors)</strong> emphasizes iterative denoising for fidelity and coverage, with semantic conditioning and DDIM-friendly interpolation.</li>
+</ul>
+<table class="caption-top table">
+<colgroup>
+<col style="width: 16%">
+<col style="width: 11%">
+<col style="width: 25%">
+<col style="width: 25%">
+<col style="width: 20%">
+</colgroup>
+<thead>
+<tr class="header">
+<th>Model</th>
+<th>Era</th>
+<th>Core idea</th>
+<th>Strengths</th>
+<th>Caveats</th>
+</tr>
+</thead>
+<tbody>
+<tr class="odd">
+<td>scGen</td>
+<td>2019</td>
+<td>VAE + latent arithmetic</td>
+<td>Simple, widely used baseline</td>
+<td>Latent geometry assumptions; decoder limits</td>
+</tr>
+<tr class="even">
+<td>trVAE</td>
+<td>~2020</td>
+<td>Conditional VAE + MMD</td>
+<td>Distribution alignment for transfer</td>
+<td>Hyperparameters; still VAE-backed</td>
+</tr>
+<tr class="odd">
+<td>CPA</td>
+<td>2021+</td>
+<td>Compositional perturbation autoencoder</td>
+<td>Drugs, doses, combinations</td>
+<td>Encoder–decoder bottleneck</td>
+</tr>
+<tr class="even">
+<td>CellOT</td>
+<td>2023</td>
+<td>Neural optimal transport</td>
+<td>Heterogeneous populations</td>
+<td>OT assumptions in complex mixtures</td>
+</tr>
+<tr class="odd">
+<td>scVIDR</td>
+<td>2023</td>
+<td>VAE dose–response</td>
+<td>Dose trajectories</td>
+<td>Flexibility under multi-perturb regimes</td>
+</tr>
+<tr class="even">
+<td>biolord</td>
+<td>2024</td>
+<td>Disentangled generative shifts</td>
+<td>Inaccessible states</td>
+<td>Disentanglement fragility</td>
+</tr>
+<tr class="odd">
+<td>GEARS</td>
+<td>2024</td>
+<td>GNN + gene graph</td>
+<td>Multigene; unseen combos</td>
+<td>Depends on graph quality; not focused on long developmental trajectories</td>
+</tr>
+<tr class="even">
+<td>Squidiff</td>
+<td>2025</td>
+<td>Conditional diffusion + semantic latent</td>
+<td>Continuous landscapes; strong reported metrics</td>
+<td>Cost; schedule sensitivity; count model not explicit</td>
+</tr>
+</tbody>
+</table>
+<div class="cell" data-layout-align="default">
+<div class="cell-output-display">
+<div>
+<p></p><figure class="figure"><p></p>
+<div>
+<pre class="mermaid mermaid-js">sequenceDiagram
+  autonumber
+  participant X0 as Baseline cells
+  participant Enc as Semantic encoder
+  participant Z as z_sem
+  participant Sam as DDIM sampler
+  participant Den as Denoiser
+  participant Out as Predicted x0
+
+  X0-&gt;&gt;Enc: encode with metadata
+  Enc--&gt;&gt;Z: z_base
+  Note over Z: z_target = edit z_base
+  Sam-&gt;&gt;Sam: x_T ~ Normal(0,I)
+  loop t = T to 1
+    Sam-&gt;&gt;Den: epsilon_hat = model(x_t, t, z_target)
+    Den--&gt;&gt;Sam: epsilon_hat
+    Sam-&gt;&gt;Sam: DDIM update x_{t-1}
+  end
+  Sam--&gt;&gt;Out: x0_hat
+</pre>
+</div>
+<p></p></figure><p></p>
+</div>
+</div>
+</div>
+</section>
+<section id="conclusion" class="level2">
+<h2 class="anchored" data-anchor-id="conclusion">Conclusion</h2>
+<p>Squidiff connects two threads that matter for generative genomics: <strong>diffusion</strong> as a flexible generative prior over high-dimensional expression vectors, and <strong>semantic latents</strong> to make interpolation and perturbation directions align with biology rather than with arbitrary noise-space geometry. The published comparisons to scGen and GEARS, together with the organoid irradiation masking experiment, make a serious case—but the field should still press on <strong>which</strong> generalization axes are covered, how <strong>drug</strong> and <strong>structure</strong> conditioning is instantiated, and whether findings hold across many held-out perturbations and datasets.</p>
+<p>For practitioners, the open codebase and package lower the barrier to try the model on new screens; treating the <strong>LICENSE</strong> hygiene and <strong>checkpoint</strong> availability as first-class engineering checks will pay off before building production pipelines on top.</p>
+<hr>
+<p><em>This article is a synthesis for educational purposes and does not substitute for reading the primary paper and supplements. Metrics and claims are described as reported in the manuscript; independent reproduction is encouraged.</em></p>
+
+
+</section>
+
+</main> <!-- /main -->
+<script id="quarto-html-after-body" type="application/javascript">
+  window.document.addEventListener("DOMContentLoaded", function (event) {
+    const icon = "";
+    const anchorJS = new window.AnchorJS();
+    anchorJS.options = {
+      placement: 'right',
+      icon: icon
+    };
+    anchorJS.add('.anchored');
+    const isCodeAnnotation = (el) => {
+      for (const clz of el.classList) {
+        if (clz.startsWith('code-annotation-')) {                     
+          return true;
+        }
+      }
+      return false;
+    }
+    const onCopySuccess = function(e) {
+      // button target
+      const button = e.trigger;
+      // don't keep focus
+      button.blur();
+      // flash "checked"
+      button.classList.add('code-copy-button-checked');
+      var currentTitle = button.getAttribute("title");
+      button.setAttribute("title", "Copied!");
+      let tooltip;
+      if (window.bootstrap) {
+        button.setAttribute("data-bs-toggle", "tooltip");
+        button.setAttribute("data-bs-placement", "left");
+        button.setAttribute("data-bs-title", "Copied!");
+        tooltip = new bootstrap.Tooltip(button, 
+          { trigger: "manual", 
+            customClass: "code-copy-button-tooltip",
+            offset: [0, -8]});
+        tooltip.show();    
+      }
+      setTimeout(function() {
+        if (tooltip) {
+          tooltip.hide();
+          button.removeAttribute("data-bs-title");
+          button.removeAttribute("data-bs-toggle");
+          button.removeAttribute("data-bs-placement");
+        }
+        button.setAttribute("title", currentTitle);
+        button.classList.remove('code-copy-button-checked');
+      }, 1000);
+      // clear code selection
+      e.clearSelection();
+    }
+    const getTextToCopy = function(trigger) {
+        const codeEl = trigger.previousElementSibling.cloneNode(true);
+        for (const childEl of codeEl.children) {
+          if (isCodeAnnotation(childEl)) {
+            childEl.remove();
+          }
+        }
+        return codeEl.innerText;
+    }
+    const clipboard = new window.ClipboardJS('.code-copy-button:not([data-in-quarto-modal])', {
+      text: getTextToCopy
+    });
+    clipboard.on('success', onCopySuccess);
+    if (window.document.getElementById('quarto-embedded-source-code-modal')) {
+      const clipboardModal = new window.ClipboardJS('.code-copy-button[data-in-quarto-modal]', {
+        text: getTextToCopy,
+        container: window.document.getElementById('quarto-embedded-source-code-modal')
+      });
+      clipboardModal.on('success', onCopySuccess);
+    }
+      var localhostRegex = new RegExp(/^(?:http|https):\/\/localhost\:?[0-9]*\//);
+      var mailtoRegex = new RegExp(/^mailto:/);
+        var filterRegex = new RegExp('/' + window.location.host + '/');
+      var isInternal = (href) => {
+          return filterRegex.test(href) || localhostRegex.test(href) || mailtoRegex.test(href);
+      }
+      // Inspect non-navigation links and adorn them if external
+     var links = window.document.querySelectorAll('a[href]:not(.nav-link):not(.navbar-brand):not(.toc-action):not(.sidebar-link):not(.sidebar-item-toggle):not(.pagination-link):not(.no-external):not([aria-hidden]):not(.dropdown-item):not(.quarto-navigation-tool):not(.about-link)');
+      for (var i=0; i<links.length; i++) {
+        const link = links[i];
+        if (!isInternal(link.href)) {
+          // undo the damage that might have been done by quarto-nav.js in the case of
+          // links that we want to consider external
+          if (link.dataset.originalHref !== undefined) {
+            link.href = link.dataset.originalHref;
+          }
+        }
+      }
+    function tippyHover(el, contentFn, onTriggerFn, onUntriggerFn) {
+      const config = {
+        allowHTML: true,
+        maxWidth: 500,
+        delay: 100,
+        arrow: false,
+        appendTo: function(el) {
+            return el.parentElement;
+        },
+        interactive: true,
+        interactiveBorder: 10,
+        theme: 'quarto',
+        placement: 'bottom-start',
+      };
+      if (contentFn) {
+        config.content = contentFn;
+      }
+      if (onTriggerFn) {
+        config.onTrigger = onTriggerFn;
+      }
+      if (onUntriggerFn) {
+        config.onUntrigger = onUntriggerFn;
+      }
+      window.tippy(el, config); 
+    }
+    const noterefs = window.document.querySelectorAll('a[role="doc-noteref"]');
+    for (var i=0; i<noterefs.length; i++) {
+      const ref = noterefs[i];
+      tippyHover(ref, function() {
+        // use id or data attribute instead here
+        let href = ref.getAttribute('data-footnote-href') || ref.getAttribute('href');
+        try { href = new URL(href).hash; } catch {}
+        const id = href.replace(/^#\/?/, "");
+        const note = window.document.getElementById(id);
+        if (note) {
+          return note.innerHTML;
+        } else {
+          return "";
+        }
+      });
+    }
+    const xrefs = window.document.querySelectorAll('a.quarto-xref');
+    const processXRef = (id, note) => {
+      // Strip column container classes
+      const stripColumnClz = (el) => {
+        el.classList.remove("page-full", "page-columns");
+        if (el.children) {
+          for (const child of el.children) {
+            stripColumnClz(child);
+          }
+        }
+      }
+      stripColumnClz(note)
+      if (id === null || id.startsWith('sec-')) {
+        // Special case sections, only their first couple elements
+        const container = document.createElement("div");
+        if (note.children && note.children.length > 2) {
+          container.appendChild(note.children[0].cloneNode(true));
+          for (let i = 1; i < note.children.length; i++) {
+            const child = note.children[i];
+            if (child.tagName === "P" && child.innerText === "") {
+              continue;
+            } else {
+              container.appendChild(child.cloneNode(true));
+              break;
+            }
+          }
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(container);
+          }
+          return container.innerHTML
+        } else {
+          if (window.Quarto?.typesetMath) {
+            window.Quarto.typesetMath(note);
+          }
+          return note.innerHTML;
+        }
+      } else {
+        // Remove any anchor links if they are present
+        const anchorLink = note.querySelector('a.anchorjs-link');
+        if (anchorLink) {
+          anchorLink.remove();
+        }
+        if (window.Quarto?.typesetMath) {
+          window.Quarto.typesetMath(note);
+        }
+        if (note.classList.contains("callout")) {
+          return note.outerHTML;
+        } else {
+          return note.innerHTML;
+        }
+      }
+    }
+    for (var i=0; i<xrefs.length; i++) {
+      const xref = xrefs[i];
+      tippyHover(xref, undefined, function(instance) {
+        instance.disable();
+        let url = xref.getAttribute('href');
+        let hash = undefined; 
+        if (url.startsWith('#')) {
+          hash = url;
+        } else {
+          try { hash = new URL(url).hash; } catch {}
+        }
+        if (hash) {
+          const id = hash.replace(/^#\/?/, "");
+          const note = window.document.getElementById(id);
+          if (note !== null) {
+            try {
+              const html = processXRef(id, note.cloneNode(true));
+              instance.setContent(html);
+            } finally {
+              instance.enable();
+              instance.show();
+            }
+          } else {
+            // See if we can fetch this
+            fetch(url.split('#')[0])
+            .then(res => res.text())
+            .then(html => {
+              const parser = new DOMParser();
+              const htmlDoc = parser.parseFromString(html, "text/html");
+              const note = htmlDoc.getElementById(id);
+              if (note !== null) {
+                const html = processXRef(id, note);
+                instance.setContent(html);
+              } 
+            }).finally(() => {
+              instance.enable();
+              instance.show();
+            });
+          }
+        } else {
+          // See if we can fetch a full url (with no hash to target)
+          // This is a special case and we should probably do some content thinning / targeting
+          fetch(url)
+          .then(res => res.text())
+          .then(html => {
+            const parser = new DOMParser();
+            const htmlDoc = parser.parseFromString(html, "text/html");
+            const note = htmlDoc.querySelector('main.content');
+            if (note !== null) {
+              // This should only happen for chapter cross references
+              // (since there is no id in the URL)
+              // remove the first header
+              if (note.children.length > 0 && note.children[0].tagName === "HEADER") {
+                note.children[0].remove();
+              }
+              const html = processXRef(null, note);
+              instance.setContent(html);
+            } 
+          }).finally(() => {
+            instance.enable();
+            instance.show();
+          });
+        }
+      }, function(instance) {
+      });
+    }
+        let selectedAnnoteEl;
+        const selectorForAnnotation = ( cell, annotation) => {
+          let cellAttr = 'data-code-cell="' + cell + '"';
+          let lineAttr = 'data-code-annotation="' +  annotation + '"';
+          const selector = 'span[' + cellAttr + '][' + lineAttr + ']';
+          return selector;
+        }
+        const selectCodeLines = (annoteEl) => {
+          const doc = window.document;
+          const targetCell = annoteEl.getAttribute("data-target-cell");
+          const targetAnnotation = annoteEl.getAttribute("data-target-annotation");
+          const annoteSpan = window.document.querySelector(selectorForAnnotation(targetCell, targetAnnotation));
+          const lines = annoteSpan.getAttribute("data-code-lines").split(",");
+          const lineIds = lines.map((line) => {
+            return targetCell + "-" + line;
+          })
+          let top = null;
+          let height = null;
+          let parent = null;
+          if (lineIds.length > 0) {
+              //compute the position of the single el (top and bottom and make a div)
+              const el = window.document.getElementById(lineIds[0]);
+              top = el.offsetTop;
+              height = el.offsetHeight;
+              parent = el.parentElement.parentElement;
+            if (lineIds.length > 1) {
+              const lastEl = window.document.getElementById(lineIds[lineIds.length - 1]);
+              const bottom = lastEl.offsetTop + lastEl.offsetHeight;
+              height = bottom - top;
+            }
+            if (top !== null && height !== null && parent !== null) {
+              // cook up a div (if necessary) and position it 
+              let div = window.document.getElementById("code-annotation-line-highlight");
+              if (div === null) {
+                div = window.document.createElement("div");
+                div.setAttribute("id", "code-annotation-line-highlight");
+                div.style.position = 'absolute';
+                parent.appendChild(div);
+              }
+              div.style.top = top - 2 + "px";
+              div.style.height = height + 4 + "px";
+              div.style.left = 0;
+              let gutterDiv = window.document.getElementById("code-annotation-line-highlight-gutter");
+              if (gutterDiv === null) {
+                gutterDiv = window.document.createElement("div");
+                gutterDiv.setAttribute("id", "code-annotation-line-highlight-gutter");
+                gutterDiv.style.position = 'absolute';
+                const codeCell = window.document.getElementById(targetCell);
+                const gutter = codeCell.querySelector('.code-annotation-gutter');
+                gutter.appendChild(gutterDiv);
+              }
+              gutterDiv.style.top = top - 2 + "px";
+              gutterDiv.style.height = height + 4 + "px";
+            }
+            selectedAnnoteEl = annoteEl;
+          }
+        };
+        const unselectCodeLines = () => {
+          const elementsIds = ["code-annotation-line-highlight", "code-annotation-line-highlight-gutter"];
+          elementsIds.forEach((elId) => {
+            const div = window.document.getElementById(elId);
+            if (div) {
+              div.remove();
+            }
+          });
+          selectedAnnoteEl = undefined;
+        };
+          // Handle positioning of the toggle
+      window.addEventListener(
+        "resize",
+        throttle(() => {
+          elRect = undefined;
+          if (selectedAnnoteEl) {
+            selectCodeLines(selectedAnnoteEl);
+          }
+        }, 10)
+      );
+      function throttle(fn, ms) {
+      let throttle = false;
+      let timer;
+        return (...args) => {
+          if(!throttle) { // first call gets through
+              fn.apply(this, args);
+              throttle = true;
+          } else { // all the others get throttled
+              if(timer) clearTimeout(timer); // cancel #2
+              timer = setTimeout(() => {
+                fn.apply(this, args);
+                timer = throttle = false;
+              }, ms);
+          }
+        };
+      }
+        // Attach click handler to the DT
+        const annoteDls = window.document.querySelectorAll('dt[data-target-cell]');
+        for (const annoteDlNode of annoteDls) {
+          annoteDlNode.addEventListener('click', (event) => {
+            const clickedEl = event.target;
+            if (clickedEl !== selectedAnnoteEl) {
+              unselectCodeLines();
+              const activeEl = window.document.querySelector('dt[data-target-cell].code-annotation-active');
+              if (activeEl) {
+                activeEl.classList.remove('code-annotation-active');
+              }
+              selectCodeLines(clickedEl);
+              clickedEl.classList.add('code-annotation-active');
+            } else {
+              // Unselect the line
+              unselectCodeLines();
+              clickedEl.classList.remove('code-annotation-active');
+            }
+          });
+        }
+    const findCites = (el) => {
+      const parentEl = el.parentElement;
+      if (parentEl) {
+        const cites = parentEl.dataset.cites;
+        if (cites) {
+          return {
+            el,
+            cites: cites.split(' ')
+          };
+        } else {
+          return findCites(el.parentElement)
+        }
+      } else {
+        return undefined;
+      }
+    };
+    var bibliorefs = window.document.querySelectorAll('a[role="doc-biblioref"]');
+    for (var i=0; i<bibliorefs.length; i++) {
+      const ref = bibliorefs[i];
+      const citeInfo = findCites(ref);
+      if (citeInfo) {
+        tippyHover(citeInfo.el, function() {
+          var popup = window.document.createElement('div');
+          citeInfo.cites.forEach(function(cite) {
+            var citeDiv = window.document.createElement('div');
+            citeDiv.classList.add('hanging-indent');
+            citeDiv.classList.add('csl-entry');
+            var biblioDiv = window.document.getElementById('ref-' + cite);
+            if (biblioDiv) {
+              citeDiv.innerHTML = biblioDiv.innerHTML;
+            }
+            popup.appendChild(citeDiv);
+          });
+          return popup.innerHTML;
+        });
+      }
+    }
+  });
+  </script>
+</div> <!-- /content -->
+
+
+
+
+</body></html>

@@ -11,6 +11,7 @@ Welcome to my genomics blog! I'm passionate about exploring the intersection of 
 This blog covers several key areas in modern genomics:
 
 - **Computational Genomics**: Analysis and interpretation of genomic data using computational methods
+- **Single-Cell Perturbation & Generative Models**: Predicting transcriptomic responses to drugs, genetic perturbations, and developmental or physical stimuli using diffusion, VAEs, optimal transport, and related approaches
 - **Machine Learning in Biology**: Applications of ML and AI in genomic prediction and modeling
 - **Regulatory Genomics**: Understanding how regulatory elements control gene expression
 - **Multimodal Genomic Analysis**: Integrating diverse data types for comprehensive biological insights
